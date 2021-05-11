@@ -1,0 +1,9 @@
+setup.py
+src/bb_parser.egg-info/PKG-INFO
+src/bb_parser.egg-info/SOURCES.txt
+src/bb_parser.egg-info/dependency_links.txt
+src/bb_parser.egg-info/requires.txt
+src/bb_parser.egg-info/top_level.txt
+src/tests/__init__.py
+src/tests/fixtures.py
+src/tests/tests.py

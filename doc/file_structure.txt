@@ -1,0 +1,66 @@
+Replay
+  ClientVersion
+  ReplayStep
+
+
+ReplayStep
+  GameInfos
+  RulesEventWaitingRequest
+  BoardState
+  RulesEventInducementsInfos
+  RulesEventApplyInducements
+  RulesEventAddMercenary
+  RulesEventAddInducement
+  RulesEventKickOffChoice
+  RulesEventBoardAction
+  RulesEventEndTurn
+  RulesEventSetUpConfiguration
+  RulesEventKickOffTable
+  RulesEventForcedDices
+  RulesEventCoachChoice
+  RulesEventGameFinished
+  RulesEventLoadGame
+  RulesEventSetUpAction
+  RulesEventSpecialAction
+
+BoardState
+  CampaignSpecifics
+  Ball
+  Bomb
+  ListSecretWeapons
+  ActiveTeam
+  CurrentPhase
+  ListTeams
+
+ListTeams
+  TeamState
+
+TeamState
+  ApotheacaryAvailable
+  ApothecaryNumber
+  Data
+  Fame
+  FoulAvailable
+  GameTurn
+  HalflingChef
+  HandOfferId
+  InducementsTurn
+  KickOffTurn
+  ListInducements
+  ListMercenaries
+  ListPitchPlayers
+  NbSupporters
+  PasserId
+  RerollNumber
+  SetUpTurn
+  Side
+  TeamRerollAvailable
+  Touchdown
+  WizardEndsTurn
+
+
+# Interesting stuff
+
+RulesEventKickOffChoice
+RulesEventKickOffTable
+RulesEventBoardAction
