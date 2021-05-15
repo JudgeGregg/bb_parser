@@ -12,12 +12,15 @@ from bb_parser.stats import Stats
 
 
 def main():
-    file_path = Path(sys.argv[1])
-    with zipfile.ZipFile(file_path) as bb_zip:
-        with bb_zip.open(file_path.stem) as bb_file:
-            text = TextIOWrapper(bb_file, encoding="utf-8")
-            replayer = Replayer()
-            replayer.parse_replay(text)
+    for file_ in sys.argv[1:]:
+        print("FILENAME:")
+        print(file_)
+        file_path = Path(file_)
+        with zipfile.ZipFile(file_path) as bb_zip:
+            with bb_zip.open(file_path.stem) as bb_file:
+                text = TextIOWrapper(bb_file, encoding="utf-8")
+                replayer = Replayer()
+                replayer.parse_replay(text)
 
 
 class Replayer():
@@ -27,13 +30,16 @@ class Replayer():
         root = etree.fromstring(replay_file.read())
         teams = self.parse_game_infos(root)
         self.stats = Stats(teams)
-        self.parse_fans_and_weather(root)
-        for event in root.iter("RulesEventBoardAction", "RulesEventKickOffTable"):
+        self.parse_events(root)
+        self.display_stats()
+
+    def parse_events(self, root):
+        for event in root.iter(
+                "RulesEventBoardAction", "RulesEventKickOffTable"):
             if event.tag == "RulesEventKickOffTable":
                 pass
             else:
                 self.parse_board_action(event)
-        self.display_stats()
 
     def parse_game_infos(self, root):
         game_infos = root.find("./ReplayStep/GameInfos")
@@ -48,28 +54,46 @@ class Replayer():
         print(teams)
         return teams
 
-    def parse_fans_and_weather(self, root):
-        fans_infos = root.xpath("./ReplayStep/RulesEventBoardAction/ActionType[text()='46']/..//ListDices")
-        weather_infos = root.xpath("./ReplayStep/RulesEventBoardAction/ActionType[text()='47']/..//ListDices")
-        print("Fans:")
-        for fans_info in fans_infos:
-            print(fans_info.text)
-        print("Weather:")
-        print(weather_infos[0].text)
-
     def display_stats(self):
         for team in self.stats.stats:
+            print("="*77)
             print(team)
+            print("="*77)
+            print("GFI")
+            print(self.stats.stats[team]["gfi"])
             print("ARMOUR")
             print(self.stats.stats[team]["armour"])
+            print("TOTAL ARMOURS:")
+            total_armours = []
+            for rolls in self.stats.stats[team]["armour"].values():
+                for roll in rolls:
+                    total_armours.append(roll)
+            print(len(total_armours))
             print("INJURY")
             print(self.stats.stats[team]["injury"])
             print("CASUALTY")
             print(self.stats.stats[team]["casualty"])
+            print("WAKE UP KO")
+            print(self.stats.stats[team]["wake_up_ko"])
             print("DODGE")
             print(self.stats.stats[team]["dodge"])
-            print("BLOCK")
+            print("PICKUP")
+            print(self.stats.stats[team]["pickup"])
+            print("PASS")
+            print(self.stats.stats[team]["pass"])
+            print("CATCH")
+            print(self.stats.stats[team]["catch"])
+            print("BLOCK DICE")
             print(self.stats.stats[team]["block"])
+            print("BLOCK DICE DISTRIBUTION")
+            print(self.stats.stats[team]["blocks"])
+            print("TOTAL BLOCKS")
+            total_blocks = 0
+            for rolls in self.stats.stats[team]["blocks"].values():
+                total_blocks += rolls
+            print(total_blocks)
+            print("D6 DICE DISTRIBUTION")
+            print(self.stats.stats[team]["dice"])
 
     def parse_board_action(self, event):
         # Is there a dice roll in this action?
@@ -79,34 +103,30 @@ class Replayer():
                 actor = self.parser.get_team_and_turn(event)
                 rolltype = action_res.find("./RollType")
                 rolltype = int(rolltype.text)
-                # player_id = step.findtext("./PlayerId")
-                self.__getattribute__(ROLL_TO_ACTION[rolltype])(action_res, actor)
+                self.__getattribute__(ROLL_TO_ACTION[rolltype])(
+                    action_res, actor)
 
     def dodge(self, action_res, actor):
         print("dodge")
         result = self.parser.get_result(action_res)
         if result:
             self.stats.add_dodge(result, actor)
-        pass
 
     def fan_attendance(self, action_res, player_id):
         print("fan_attendance")
-        result = self.parser.get_result(action_res)
-        pass
+        _ = self.parser.get_result(action_res)
 
     def weather(self, action_res, player_id):
         print("weather")
-        result = self.parser.get_result(action_res)
-        pass
+        _ = self.parser.get_result(action_res)
 
     def halfing_chef(self, action_res, player_id):
         print("halfing_chef")
-        result = self.parser.get_result(action_res)
-        pass
+        _ = self.parser.get_result(action_res)
 
     def kickoff(self, action_res, player_id):
         print("kickoff")
-        result = self.parser.get_result(action_res)
+        _ = self.parser.get_result(action_res)
 
     def block(self, action_res, actor):
         print("block")
@@ -114,15 +134,21 @@ class Replayer():
         if result:
             self.stats.add_block(result, actor)
 
-    def pickup(self, action_res, player_id):
-        pass
+    def pickup(self, action_res, actor):
+        print("pickup")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_pickup(result, actor)
+
+    def foul(self, action_res, actor):
+        print("foul")
+        # Ignore foul, since armour and injury have regular rolls
 
     def armour(self, action_res, actor):
         print("armour")
         result = self.parser.get_result(action_res)
         if result:
             self.stats.add_armour(result, actor)
-        pass
 
     def injury(self, action_res, actor):
         print("injury")
@@ -136,31 +162,65 @@ class Replayer():
         if result:
             self.stats.add_casualty(result, actor)
 
-    def gfi(self, action_res, player_id):
-        pass
+    def gfi(self, action_res, actor):
+        print("gfi")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_gfi(result, actor)
 
-    def wild_animal(self, action_res, player_id):
-        pass
+    def pass_(self, action_res, actor):
+        print("pass")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_pass(result, actor)
 
-    def pass_(self, action_res, player_id):
-        pass
+    def catch(self, action_res, actor):
+        print("catch")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_catch(result, actor)
 
-    def catch(self, action_res, player_id):
-        pass
+    def throw_team_mate(self, action_res, actor):
+        print("throw_team_mate")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_throw_team_mate(result, actor)
 
-    def intercept(self, action_res, player_id):
-        pass
+    def landing(self, action_res, actor):
+        print("landing")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_landing(result, actor)
 
-    def really_stupid(self, action_res, player_id):
-        pass
+    def intercept(self, action_res, actor):
+        print("intercept")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_intercept(result, actor)
 
-    def loner(self, action_res, player_id):
+    def jump_up(self, action_res, actor):
+        print("jump up")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_jump_up(result, actor)
+
+    def leap(self, action_res, actor):
+        print("leap")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_leap(result, actor)
+
+    def loner(self, action_res, actor):
         print("loner")
         result = self.parser.get_result(action_res)
-        pass
+        if result:
+            self.stats.add_loner(result, actor)
 
-    def wake_up_ko(self, action_res, player_id):
-        pass
+    def wake_up_ko(self, action_res, actor):
+        print("wake_up_ko")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_wake_up_ko(result, actor)
 
     def throw_in(self, action_res, player_id):
         pass
@@ -168,53 +228,50 @@ class Replayer():
     def kickoff_gust(self, action_res, player_id):
         pass
 
-    def unknown(self, action_res, player_id):
+    def ignored(self, action_res, player_id):
         pass
 
-    def bone_head(self, action_res, player_id):
+    def bone_head(self, action_res, actor):
+        print("bone_head")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_bone_head(result, actor)
+
+    def wild_animal(self, action_res, actor):
+        print("wild_animal")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_wild_animal(result, actor)
+
+    def really_stupid(self, action_res, actor):
+        print("really_stupid")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_really_stupid(result, actor)
+
+    def take_root(self, action_res, actor):
+        print("take_root")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_take_root(result, actor)
+
+    def dauntless(self, action_res, actor):
+        print("dauntless")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_dauntless(result, actor)
+
+    def impact_of_the_bomb(self, action_res, actor):
+        print("impact_of_the_bomb")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_impact_of_the_bomb(result, actor)
+
+    def stand_up(self, action_res, player_id):
         pass
 
-
-# def parse_dodge(root):
-    # dodges = root.xpath("./ReplayStep/RulesEventBoardAction/Results/BoardActionResult/RollType[text()='2']/../../..")
-    # print("Dodges:")
-    # for dodge in dodges:
-        # player_id = dodge.find("./PlayerId").text
-        # requirement = int(dodge.find(".//Requirement").text)
-        # mods = dodge.find(".//ListModifiers")
-        # for mod in mods.getchildren():
-            # requirement -= int(mod.find("Value").text)
-        # result = dodge.find(".//ListDices").text
-        # print(player_id)
-        # if requirement < 2:
-            # requirement = 2
-        # elif requirement > 6:
-            # requirement = 6
-
-        # print(str(requirement) + "+")
-        # print(result)
-
-
-# def parse_pickup(root):
-    # pickups = root.xpath("./ReplayStep/RulesEventBoardAction/Results/BoardActionResult/RollType[text()='7']/../../..")
-    # print("Pickups:")
-    # for pickup in pickups:
-        # player_id = pickup.find("./PlayerId").text
-        # results = pickup.findall("./Results/BoardActionResult")
-        # for result in results:
-            # requirement = int(result.find(".//Requirement").text)
-            # mods = result.find(".//ListModifiers")
-            # for mod in mods.getchildren():
-                # requirement -= int(mod.find("Value").text)
-            # dices = result.find(".//ListDices").text
-            # print(player_id)
-            # if requirement < 2:
-                # requirement = 2
-            # elif requirement > 6:
-                # requirement = 6
-
-            # print(str(requirement) + "+")
-            # print(dices)
+    def inaccurate_pass(self, action_res, actor):
+        pass
 
 
 if __name__ == "__main__":

@@ -8,6 +8,11 @@ setup(name="bb_parser",
       packages=find_packages(where="src"),
       package_dir={"": "src"},
       install_requires=["lxml"],
+      entry_points={
+        'console_scripts': [
+            'bb2_parser=bb_parser.main:main',
+        ]
+      },
       extras_require={
             # "dev": ["requests-mock"],
       },

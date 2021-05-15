@@ -1,4 +1,4 @@
-from bb_parser.mappings import BLOCK, ARMOUR
+from bb_parser.mappings import BLOCK, ARMOUR, CASUALTY
 
 
 class Result():
@@ -18,8 +18,8 @@ class Actor():
 class Parser():
 
     def __init__(self):
-        self.previous_dices = None
-        self.current = None
+        self.current_team = None
+        self.current_turn = 0
 
     def get_team_and_turn(self, event):
         team = ""
@@ -29,10 +29,15 @@ class Parser():
             player_id = int(player_id)
             print("Player ID:")
             print(player_id)
+            if player_id == -1:  # Wizard
+                return Actor(self.current_team, self.current_turn)
             elem_id = event.getparent().xpath("./BoardState/ListTeams/TeamState/ListPitchPlayers/PlayerState/Id[text()='{}']".format(player_id))[0]
             elem_team_state = elem_id.getparent().getparent().getparent()
             turn = elem_team_state.findtext("./GameTurn")
+            if turn and int(turn) >= int(self.current_turn):
+                self.current_turn = turn
             team = elem_team_state.findtext("./Data/Name")
+            self.current_team = team
             print("Turn:")
             print(turn)
             print("Team:")
@@ -40,24 +45,35 @@ class Parser():
         return Actor(team, turn)
 
     def get_result(self, action_res):
-        # Ignore requirements on block
         rolltype = int(action_res.findtext("./RollType"))
         if rolltype == BLOCK:
+            # Ignore requirements on block
             dices = action_res.find(".//ListDices").text
             if action_res.findtext("./IsOrderCompleted") == "1":
                 print("=> " + dices)
+                return
+            elif action_res.find("./RollStatus") is not None and action_res.findtext("./RollStatus") == "2":
+                print("REROLL NOT AVAILABLE!")
                 return
             else:
                 print(dices)
                 res = Result(dices)
                 return res
+
+        if rolltype == CASUALTY:
+            if action_res.findtext("./RollStatus") == "1" and action_res.findtext("./IsOrderCompleted") == "1":
+                print("Ignoring, casualty choice")
+                return
+
         requirement = action_res.findtext("./Requirement")
+
         if requirement:
             requirement_init = int(requirement)
             requirement = int(requirement)
             mods = action_res.find("./ListModifiers")
             for mod in mods.getchildren():
-                requirement -= int(mod.find("Value").text)
+                if mod.find("Value") is not None:
+                    requirement -= int(mod.find("Value").text)
             if requirement < 2 and rolltype not in (ARMOUR,):
                 requirement = 2
             elif requirement > 6 and rolltype not in (ARMOUR,):
@@ -68,26 +84,9 @@ class Parser():
 
         dices = action_res.find(".//ListDices").text
 
-        if self.previous_dices:
-            if action_res.findtext("./IsOrderCompleted") == "1" and self.previous_dices == dices:
-                self.previous_dices = None
-                print("Ignoring, reroll not used")
-                print("Ignoring, reroll not used (OR SAME DICE?")
-                return
-            elif action_res.findtext("./IsOrderCompleted") == "1" and dices == self.previous_dices:
-                __import__('pdb').set_trace()
-                print("SHOULD NOT HAPPEN")
-            elif dices != self.previous_dices:
-                if self.current:
-                    print("FINAL CHOICE, Ignore")
-                    self.current = None
-                    self.previous_dices = None
-                    return
-                print("NEW DICES: OK")
-                print("CHOICE OFFERED")
-                self.current = True
-        if action_res.findtext(".//Reroll") == "1":
-            self.previous_dices = dices
+        if action_res.find("./RollStatus") is not None and action_res.findtext("./RollStatus") == "2":
+            print("Ignoring, reroll not used or not available")
+            return
 
         print(dices)
         res = Result(dices, str(requirement))

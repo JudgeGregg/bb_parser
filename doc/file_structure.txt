@@ -64,3 +64,17 @@ TeamState
 RulesEventKickOffChoice
 RulesEventKickOffTable
 RulesEventBoardAction
+
+
+BLOCKS:
+<RequestType>5< == Ask for team reroll?
+<Reroll>1< == Reroll available?
+<RollStatus>1< == Reroll successfuly used?
+<RollStatus>2< == Reroll not used / failed?
+<RequestType>2< == Ask for picking a dice
+
+DODGES:
+<RequestType>1< == Ask for team reroll?
+<Reroll>1< == Reroll available?
+<RollStatus>1< == Reroll successfuly used?
+<RollStatus>2< == Reroll not used / failed?
