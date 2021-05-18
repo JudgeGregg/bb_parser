@@ -6,7 +6,7 @@ DODGE = 2
 # Rolltype -> Action
 ROLL_TO_ACTION = {
     1: "gfi",
-    15: "foul",  # FIXME?
+    15: "foul",  # Useless since armour is roll on a separate event
     22: "wild_animal",
     2: "dodge",
     69: "fan_attendance",
@@ -24,6 +24,7 @@ ROLL_TO_ACTION = {
     16: "intercept",
     21: "really_stupid",
     23: "loner",
+    26: "inaccurate_pass",  # Inaccurate Pass scatter
     17: "wake_up_ko",
     11: "throw_in",
     56: "throw_team_mate",
@@ -35,8 +36,9 @@ ROLL_TO_ACTION = {
     36: "leap",
     40: "take_root",
     72: "impact_of_the_bomb",
-    25: "ignored",  # Regeneration
-    26: "inaccurate_pass",  # Inaccurate Pass scatter
+    25: "regeneration",
+    54: "fireball",
+    55: "lightning_bolt",
     27: "ignored",  # Always Hungry
     32: "ignored",  # Shadowing
     34: "ignored",  # Stab
@@ -49,8 +51,6 @@ ROLL_TO_ACTION = {
     46: "ignored",  # Hypnotic Gaze
     50: "ignored",  # Bloodlust
     52: "ignored",  # Bribe
-    54: "ignored",  # Fireball
-    55: "ignored",  # Lightning Bolt
     59: "ignored",  # Piling On Armour
     60: "ignored",  # Piling On Injury
     61: "ignored",  # Diving Catch

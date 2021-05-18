@@ -20,6 +20,7 @@ class Stats():
             # Blocks + histogram
             self.stats[team]["block"] = list()
             self.stats[team]["blocks"] = {"AD": 0, "BD": 0, "P": 0, "DS": 0, "DD": 0}
+            self.stats[team]["players"] = defaultdict(list)
             # Movement
             self.stats[team]["gfi"] = list()
             self.stats[team]["dodge"] = defaultdict(list)
@@ -27,6 +28,7 @@ class Stats():
             self.stats[team]["pickup"] = defaultdict(list)
             self.stats[team]["pass"] = defaultdict(list)
             self.stats[team]["catch"] = defaultdict(list)
+            self.stats[team]["intercept"] = defaultdict(list)
             # TTM
             self.stats[team]["throw_team_mate"] = defaultdict(list)
             self.stats[team]["landing"] = defaultdict(list)
@@ -45,7 +47,7 @@ class Stats():
         dice = dice.split(",")
         if len(dice) > 2:
             # Apo used
-            return "(" + dice[1][1] + ")"
+            return "(" + dice[1][0] + ")"
         else:
             return "(" + dice[0][1] + ")"
 
@@ -114,7 +116,10 @@ class Stats():
 
     def add_intercept(self, result, actor):
         dice = result.dices
-        self.add_dice(dice, actor.team)
+        requirement = result.requirement
+        opposing_team = self.teams.difference(set([actor.team])).pop()
+        self.add_dice(dice, opposing_team)
+        self.stats[opposing_team]["intercept"][requirement].append(dice)
 
     def add_throw_team_mate(self, result, actor):
         dice = result.dices
@@ -135,9 +140,11 @@ class Stats():
         self.stats[actor.team]["dodge"][requirement].append(dice)
 
     def add_block(self, result, actor):
+        player_name = actor.player_name
         dice = result.dices
         dice = self.parse_block_dice(dice)
         self.stats[actor.team]["block"].append(dice)
+        self.stats[actor.team]["players"][player_name].append(dice)
         for block in dice:
             self.stats[actor.team]["blocks"][block] += 1
 
@@ -189,5 +196,17 @@ class Stats():
         self.add_dice(dice, actor.team)
 
     def add_impact_of_the_bomb(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_regeneration(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_fireball(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_lightning_bolt(self, result, actor):
         dice = result.dices
         self.add_dice(dice, actor.team)

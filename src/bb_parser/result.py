@@ -10,9 +10,10 @@ class Result():
 
 class Actor():
 
-    def __init__(self, team, turn):
+    def __init__(self, team, turn, player_name=None):
         self.team = team
         self.turn = turn
+        self.player_name = player_name
 
 
 class Parser():
@@ -22,8 +23,9 @@ class Parser():
         self.current_turn = 0
 
     def get_team_and_turn(self, event):
-        team = ""
-        turn = ""
+        team = None
+        turn = None
+        player_name = None
         player_id = event.findtext("PlayerId")
         if player_id:
             player_id = int(player_id)
@@ -33,6 +35,8 @@ class Parser():
                 return Actor(self.current_team, self.current_turn)
             elem_id = event.getparent().xpath("./BoardState/ListTeams/TeamState/ListPitchPlayers/PlayerState/Id[text()='{}']".format(player_id))[0]
             elem_team_state = elem_id.getparent().getparent().getparent()
+            elem_player = elem_id.getparent()
+            player_name = elem_player.findtext("./Data/Name")
             turn = elem_team_state.findtext("./GameTurn")
             if turn and int(turn) >= int(self.current_turn):
                 self.current_turn = turn
@@ -42,7 +46,9 @@ class Parser():
             print(turn)
             print("Team:")
             print(team)
-        return Actor(team, turn)
+            print("Player:")
+            print(player_name)
+        return Actor(team, turn, player_name)
 
     def get_result(self, action_res):
         rolltype = int(action_res.findtext("./RollType"))

@@ -83,6 +83,12 @@ class Replayer():
             print(self.stats.stats[team]["pass"])
             print("CATCH")
             print(self.stats.stats[team]["catch"])
+            print("INTERCEPT")
+            print(self.stats.stats[team]["intercept"])
+            print("LANDING")
+            print(self.stats.stats[team]["landing"])
+            print("TTM")
+            print(self.stats.stats[team]["throw_team_mate"])
             print("BLOCK DICE")
             print(self.stats.stats[team]["block"])
             print("BLOCK DICE DISTRIBUTION")
@@ -92,6 +98,9 @@ class Replayer():
             for rolls in self.stats.stats[team]["blocks"].values():
                 total_blocks += rolls
             print(total_blocks)
+            print("BLOCKS PER PLAYER")
+            for player_name, roll_hist in self.stats.stats[team]["players"].items():
+                print(player_name, roll_hist)
             print("D6 DICE DISTRIBUTION")
             print(self.stats.stats[team]["dice"])
 
@@ -267,10 +276,29 @@ class Replayer():
         if result:
             self.stats.add_impact_of_the_bomb(result, actor)
 
+    def regeneration(self, action_res, actor):
+        print("regeneration")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_regeneration(result, actor)
+
+    def fireball(self, action_res, actor):
+        print("fireball")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_fireball(result, actor)
+
+    def lightning_bolt(self, action_res, actor):
+        print("lightning_bolt")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_lightning_bolt(result, actor)
+
     def stand_up(self, action_res, player_id):
         pass
 
     def inaccurate_pass(self, action_res, actor):
+        # These are recorded in game whereas they're 8 sided rolls??
         pass
 
 
