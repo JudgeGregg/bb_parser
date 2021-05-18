@@ -1,2 +1,3 @@
 __pycache__
+.coverage
 bb_parser.egg-info

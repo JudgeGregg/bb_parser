@@ -14,6 +14,6 @@ setup(name="bb_parser",
         ]
       },
       extras_require={
-            # "dev": ["requests-mock"],
+            "dev": ["coverage"],
       },
       license="Apache 2.0")

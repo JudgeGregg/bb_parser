@@ -99,67 +99,7 @@ WEATHER_FANS_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-DODGE_SUCCESS_FIXTURE = """<?xml version="1.0" ?>
-<Replay>
-    <ReplayStep>
-                <RulesEventBoardAction>
-                        <PlayerId>1</PlayerId>
-                        <RequestType>1</RequestType>
-                        <Order>
-                                <CellTo>
-                                        <Cell>
-                                                <y>12</y>
-                                                <x>9</x>
-                                        </Cell>
-                                </CellTo>
-                                <CellFrom>
-                                        <y>12</y>
-                                        <x>10</x>
-                                </CellFrom>
-                        </Order>
-                        <Results>
-                                <BoardActionResult>
-                                        <Requirement>4</Requirement>
-                                        <ListModifiers>
-                                                <DiceModifier>
-                                                        <Cell/>
-                                                        <Skill>-1</Skill>
-                                                        <Type>2</Type>
-                                                        <Value>1</Value>
-                                                </DiceModifier>
-                                        </ListModifiers>
-                                        <IsOrderCompleted>1</IsOrderCompleted>
-                                        <RollType>2</RollType>
-                                        <CoachChoices>
-                                                <ListCells/>
-                                                <ListDices>(5)</ListDices>
-                                                <ListSkills/>
-                                        </CoachChoices>
-                                </BoardActionResult>
-                        </Results>
-                </RulesEventBoardAction>
-                <BoardState>
-                        <ListTeams>
-                                <TeamState>
-                                        <GameTurn>1</GameTurn>
-                                        <ListPitchPlayers>
-                                                <PlayerState>
-                                                    <Id>1</Id>
-                                                    <Data>
-                                                       <Name>Test Player</Name>
-                                                       <Id>1</Id>
-                                                    </Data>
-                                                </PlayerState>
-                                        </ListPitchPlayers>
-                                </TeamState>
-                        </ListTeams>
-                </BoardState>
-    </ReplayStep>
-</Replay>
-"""
-
-
-BLOCK_FIXTURE_WITH_RR = """<?xml version="1.0" ?>
+BLOCK_WITH_RR_FIXTURE = """<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -307,15 +247,34 @@ BLOCK_FIXTURE_WITH_RR = """<?xml version="1.0" ?>
                                 </BoardActionResult>
                         </Results>
                 </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
     </ReplayStep>
 </Replay>
 """
 
-BLOCK_FIXTURE_NO_RR = """<?xml version="1.0" ?>
+BLOCK_NO_RR_FIXTURE = """<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
-                        <PlayerId>47</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>1</ActionType>
                         <Order>
@@ -357,7 +316,7 @@ BLOCK_FIXTURE_NO_RR = """<?xml version="1.0" ?>
                         </Results>
                 </RulesEventBoardAction>
                 <RulesEventBoardAction>
-                        <PlayerId>47</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>1</ActionType>
                         <Order>
@@ -420,15 +379,34 @@ BLOCK_FIXTURE_NO_RR = """<?xml version="1.0" ?>
                                 </BoardActionResult>
                         </Results>
                 </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
     </ReplayStep>
 </Replay>
 """
 
-BLOCK_FIXTURE_RR_LONER = """<?xml version="1.0" ?>
+BLOCK_RR_LONER_FIXTURE = """<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
-                        <PlayerId>47</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>2</ActionType>
                         <Order>
@@ -460,7 +438,7 @@ BLOCK_FIXTURE_RR_LONER = """<?xml version="1.0" ?>
                         </Results>
                 </RulesEventBoardAction>
                 <RulesEventBoardAction>
-                        <PlayerId>47</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>2</ActionType>
                         <Order>
@@ -510,7 +488,7 @@ BLOCK_FIXTURE_RR_LONER = """<?xml version="1.0" ?>
                         </Results>
                 </RulesEventBoardAction>
                 <RulesEventBoardAction>
-                        <PlayerId>47</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>2</ActionType>
                         <Order>
@@ -545,246 +523,34 @@ BLOCK_FIXTURE_RR_LONER = """<?xml version="1.0" ?>
                                 </BoardActionResult>
                         </Results>
                 </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
     </ReplayStep>
 </Replay>
 """
 
-DODGE_FAILURE_PRE_RR_FIXTURE = """<?xml version="1.0" ?>
+BLOCK_ONE_DIE_WITH_RR_FIXTURE = """<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
-                        <PlayerId>46</PlayerId>
-                        <RequestType>1</RequestType>
-                        <Order>
-                                <CellTo>
-                                        <Cell>
-                                                <x>17</x>
-                                        </Cell>
-                                </CellTo>
-                                <CellFrom>
-                                        <y>1</y>
-                                        <x>17</x>
-                                </CellFrom>
-                        </Order>
-                        <Results>
-                                <BoardActionResult>
-                                        <Requirement>4</Requirement>
-                                        <RequestType>1</RequestType>
-                                        <ListModifiers>
-                                                <DiceModifier>
-                                                        <Cell/>
-                                                        <Skill>-1</Skill>
-                                                        <Type>2</Type>
-                                                        <Value>1</Value>
-                                                </DiceModifier>
-                                        </ListModifiers>
-                                        <ResultType>2</ResultType>
-                                        <RollType>2</RollType>
-                                        <CoachChoices>
-                                                <ConcernedTeam>1</ConcernedTeam>
-                                                <ListCells/>
-                                                <ListDices>(1)</ListDices>
-                                                <Reroll>1</Reroll>
-                                                <ListSkills/>
-                                        </CoachChoices>
-                                </BoardActionResult>
-                        </Results>
-                </RulesEventBoardAction>
-    </ReplayStep>
-</Replay>
-"""
-
-DODGE_FAILURE_POST_RR_FIXTURE = """<?xml version="1.0" ?>
-<Replay>
-    <ReplayStep>
-                <RulesEventBoardAction>
-                        <PlayerId>46</PlayerId>
-                        <RequestType>1</RequestType>
-                        <Order>
-                                <CellTo>
-                                        <Cell>
-                                                <x>17</x>
-                                        </Cell>
-                                </CellTo>
-                                <CellFrom>
-                                        <y>1</y>
-                                        <x>17</x>
-                                </CellFrom>
-                        </Order>
-                        <Results>
-                                <BoardActionResult>
-                                        <Requirement>4</Requirement>
-                                        <RollStatus>1</RollStatus>
-                                        <ListModifiers>
-                                                <DiceModifier>
-                                                        <Cell/>
-                                                        <Skill>-1</Skill>
-                                                        <Type>2</Type>
-                                                        <Value>1</Value>
-                                                </DiceModifier>
-                                        </ListModifiers>
-                                        <ResultType>3</ResultType>
-                                        <IsOrderCompleted>1</IsOrderCompleted>
-                                        <RollType>2</RollType>
-                                        <CoachChoices>
-                                                <ConcernedTeam>1</ConcernedTeam>
-                                                <ListCells/>
-                                                <ListDices>(2)</ListDices>
-                                                <ListSkills/>
-                                        </CoachChoices>
-                                </BoardActionResult>
-                        </Results>
-                </RulesEventBoardAction>
-    </ReplayStep>
-</Replay>
-"""
-
-DODGE_FAILURE_NO_RR_FIXTURE = """<?xml version="1.0" ?>
-<Replay>
-    <ReplayStep>
-                <RulesEventBoardAction>
-                        <PlayerId>47</PlayerId>
-                        <RequestType>1</RequestType>
-                        <Order>
-                                <CellTo>
-                                        <Cell>
-                                                <y>12</y>
-                                                <x>14</x>
-                                        </Cell>
-                                </CellTo>
-                                <CellFrom>
-                                        <y>11</y>
-                                        <x>13</x>
-                                </CellFrom>
-                        </Order>
-                        <Results>
-                                <BoardActionResult>
-                                        <Requirement>3</Requirement>
-                                        <RequestType>1</RequestType>
-                                        <ListModifiers>
-                                                <DiceModifier>
-                                                        <Cell/>
-                                                        <Skill>-1</Skill>
-                                                        <Type>2</Type>
-                                                        <Value>1</Value>
-                                                </DiceModifier>
-                                        </ListModifiers>
-                                        <ResultType>2</ResultType>
-                                        <RollType>2</RollType>
-                                        <CoachChoices>
-                                                <ConcernedTeam>1</ConcernedTeam>
-                                                <ListCells/>
-                                                <ListDices>(1)</ListDices>
-                                                <Reroll>1</Reroll>
-                                                <ListSkills/>
-                                        </CoachChoices>
-                                </BoardActionResult>
-                        </Results>
-                </RulesEventBoardAction>
-    </ReplayStep>
-</Replay>
-"""
-
-DODGE_SUCCESS_WITH_SKILL_FIXTURE = """<?xml version="1.0" ?>
-<Replay>
-    <ReplayStep>
-                <RulesEventBoardAction>
-                        <PlayerId>37</PlayerId>
-                        <RequestType>1</RequestType>
-                        <Order>
-                                <CellTo>
-                                        <Cell>
-                                                <y>12</y>
-                                                <x>9</x>
-                                        </Cell>
-                                </CellTo>
-                                <CellFrom>
-                                        <y>13</y>
-                                        <x>8</x>
-                                </CellFrom>
-                        </Order>
-                        <Results>
-                                <BoardActionResult>
-                                        <RequestType>4</RequestType>
-                                        <ListModifiers/>
-                                        <ResultType>2</ResultType>
-                                        <RollType>2</RollType>
-                                        <SubResultType>7</SubResultType>
-                                        <CoachChoices>
-                                                <ConcernedTeam>1</ConcernedTeam>
-                                                <ListCells>
-                                                        <Cell>
-                                                                <y>13</y>
-                                                                <x>8</x>
-                                                        </Cell>
-                                                </ListCells>
-                                                <ListDices>(1)</ListDices>
-                                                <ListSkills>
-                                                        <SkillInfo>
-                                                                <PlayerId>37</PlayerId>
-                                                                <SkillId>7</SkillId>
-                                                        </SkillInfo>
-                                                </ListSkills>
-                                        </CoachChoices>
-                                </BoardActionResult>
-                        </Results>
-                </RulesEventBoardAction>
-                <RulesEventBoardAction>
-                        <PlayerId>37</PlayerId>
-                        <RequestType>1</RequestType>
-                        <Order>
-                                <CellTo>
-                                        <Cell>
-                                                <y>12</y>
-                                                <x>9</x>
-                                        </Cell>
-                                </CellTo>
-                                <CellFrom>
-                                        <y>13</y>
-                                        <x>8</x>
-                                </CellFrom>
-                        </Order>
-                        <Results>
-                                <BoardActionResult>
-                                        <Requirement>4</Requirement>
-                                        <RollStatus>4</RollStatus>
-                                        <ListModifiers>
-                                                <DiceModifier>
-                                                        <Cell/>
-                                                        <Skill>-1</Skill>
-                                                        <Type>2</Type>
-                                                        <Value>1</Value>
-                                                </DiceModifier>
-                                        </ListModifiers>
-                                        <IsOrderCompleted>1</IsOrderCompleted>
-                                        <RollType>2</RollType>
-                                        <CoachChoices>
-                                                <ConcernedTeam>1</ConcernedTeam>
-                                                <ListCells/>
-                                                <ListDices>(5)</ListDices>
-                                                <ListSkills>
-                                                        <SkillInfo>
-                                                                <PlayerId>37</PlayerId>
-                                                                <SkillId>7</SkillId>
-                                                        </SkillInfo>
-                                                        <SkillInfo>
-                                                                <PlayerId>37</PlayerId>
-                                                                <SkillId>59</SkillId>
-                                                        </SkillInfo>
-                                                </ListSkills>
-                                        </CoachChoices>
-                                </BoardActionResult>
-                        </Results>
-                </RulesEventBoardAction>
-    </ReplayStep>
-</Replay>
-"""
-
-ONE_DIE_BLOCK_WITH_RR = """<?xml version="1.0" ?>
-<Replay>
-    <ReplayStep>
-                <RulesEventBoardAction>
-                        <PlayerId>41</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>2</ActionType>
                         <Order>
@@ -825,7 +591,7 @@ ONE_DIE_BLOCK_WITH_RR = """<?xml version="1.0" ?>
                         </Results>
                 </RulesEventBoardAction>
                 <RulesEventBoardAction>
-                        <PlayerId>41</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>2</ActionType>
                         <Order>
@@ -866,7 +632,7 @@ ONE_DIE_BLOCK_WITH_RR = """<?xml version="1.0" ?>
                         </Results>
                 </RulesEventBoardAction>
                 <RulesEventBoardAction>
-                        <PlayerId>41</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>2</ActionType>
                         <Order>
@@ -913,15 +679,34 @@ ONE_DIE_BLOCK_WITH_RR = """<?xml version="1.0" ?>
                                 </BoardActionResult>
                         </Results>
                 </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
     </ReplayStep>
 </Replay>
 """
 
-ONE_DIE_BLOCK_NO_RR = """<?xml version="1.0" ?>
+BLOCK_ONE_DIE_NO_RR_FIXTURE = """<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
-                        <PlayerId>43</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>1</ActionType>
                         <Order>
@@ -961,7 +746,7 @@ ONE_DIE_BLOCK_NO_RR = """<?xml version="1.0" ?>
                         </Results>
                 </RulesEventBoardAction>
                 <RulesEventBoardAction>
-                        <PlayerId>43</PlayerId>
+                        <PlayerId>1</PlayerId>
                         <RequestType>1</RequestType>
                         <ActionType>1</ActionType>
                         <Order>
@@ -998,6 +783,408 @@ ONE_DIE_BLOCK_NO_RR = """<?xml version="1.0" ?>
                                 </BoardActionResult>
                         </Results>
                 </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
+    </ReplayStep>
+</Replay>
+"""
+
+DODGE_SUCCESS_FIXTURE = """<?xml version="1.0" ?>
+<Replay>
+    <ReplayStep>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>12</y>
+                                                <x>9</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>12</y>
+                                        <x>10</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <Requirement>4</Requirement>
+                                        <ListModifiers>
+                                                <DiceModifier>
+                                                        <Cell/>
+                                                        <Skill>-1</Skill>
+                                                        <Type>2</Type>
+                                                        <Value>1</Value>
+                                                </DiceModifier>
+                                        </ListModifiers>
+                                        <IsOrderCompleted>1</IsOrderCompleted>
+                                        <RollType>2</RollType>
+                                        <CoachChoices>
+                                                <ListCells/>
+                                                <ListDices>(5)</ListDices>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
+    </ReplayStep>
+</Replay>
+"""
+
+DODGE_FAILURE_DESPITE_RR_FIXTURE = """<?xml version="1.0" ?>
+<Replay>
+    <ReplayStep>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <x>17</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>1</y>
+                                        <x>17</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <Requirement>4</Requirement>
+                                        <RequestType>1</RequestType>
+                                        <ListModifiers>
+                                                <DiceModifier>
+                                                        <Cell/>
+                                                        <Skill>-1</Skill>
+                                                        <Type>2</Type>
+                                                        <Value>1</Value>
+                                                </DiceModifier>
+                                        </ListModifiers>
+                                        <ResultType>2</ResultType>
+                                        <RollType>2</RollType>
+                                        <CoachChoices>
+                                                <ConcernedTeam>1</ConcernedTeam>
+                                                <ListCells/>
+                                                <ListDices>(1)</ListDices>
+                                                <Reroll>1</Reroll>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <x>17</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>1</y>
+                                        <x>17</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <Requirement>4</Requirement>
+                                        <RollStatus>1</RollStatus>
+                                        <ListModifiers>
+                                                <DiceModifier>
+                                                        <Cell/>
+                                                        <Skill>-1</Skill>
+                                                        <Type>2</Type>
+                                                        <Value>1</Value>
+                                                </DiceModifier>
+                                        </ListModifiers>
+                                        <ResultType>3</ResultType>
+                                        <IsOrderCompleted>1</IsOrderCompleted>
+                                        <RollType>2</RollType>
+                                        <CoachChoices>
+                                                <ConcernedTeam>1</ConcernedTeam>
+                                                <ListCells/>
+                                                <ListDices>(2)</ListDices>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
+    </ReplayStep>
+</Replay>
+"""
+
+DODGE_FAILURE_NO_RR_FIXTURE = """<?xml version="1.0" ?>
+<Replay>
+    <ReplayStep>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>12</y>
+                                                <x>14</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>11</y>
+                                        <x>13</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <Requirement>3</Requirement>
+                                        <RequestType>1</RequestType>
+                                        <ListModifiers>
+                                                <DiceModifier>
+                                                        <Cell/>
+                                                        <Skill>-1</Skill>
+                                                        <Type>2</Type>
+                                                        <Value>1</Value>
+                                                </DiceModifier>
+                                        </ListModifiers>
+                                        <ResultType>2</ResultType>
+                                        <RollType>2</RollType>
+                                        <CoachChoices>
+                                                <ConcernedTeam>1</ConcernedTeam>
+                                                <ListCells/>
+                                                <ListDices>(1)</ListDices>
+                                                <Reroll>1</Reroll>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>12</y>
+                                                <x>14</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>11</y>
+                                        <x>13</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <Requirement>3</Requirement>
+                                        <RequestType>1</RequestType>
+                                        <ListModifiers>
+                                                <DiceModifier>
+                                                        <Cell/>
+                                                        <Skill>-1</Skill>
+                                                        <Type>2</Type>
+                                                        <Value>1</Value>
+                                                </DiceModifier>
+                                        </ListModifiers>
+                                        <ResultType>2</ResultType>
+                                        <RollStatus>2</RollStatus>
+                                        <RollType>2</RollType>
+                                        <IsOrderCompleted>1</IsOrderCompleted>
+                                        <CoachChoices>
+                                                <ConcernedTeam>1</ConcernedTeam>
+                                                <ListCells/>
+                                                <ListDices>(1)</ListDices>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
+    </ReplayStep>
+</Replay>
+"""
+
+DODGE_SUCCESS_WITH_SKILL_FIXTURE = """<?xml version="1.0" ?>
+<Replay>
+    <ReplayStep>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>12</y>
+                                                <x>9</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>13</y>
+                                        <x>8</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <RequestType>4</RequestType>
+                                        <ListModifiers/>
+                                        <ResultType>2</ResultType>
+                                        <RollType>2</RollType>
+                                        <SubResultType>7</SubResultType>
+                                        <CoachChoices>
+                                                <ConcernedTeam>1</ConcernedTeam>
+                                                <ListCells>
+                                                        <Cell>
+                                                                <y>13</y>
+                                                                <x>8</x>
+                                                        </Cell>
+                                                </ListCells>
+                                                <ListDices>(1)</ListDices>
+                                                <ListSkills>
+                                                        <SkillInfo>
+                                                                <PlayerId>37</PlayerId>
+                                                                <SkillId>7</SkillId>
+                                                        </SkillInfo>
+                                                </ListSkills>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>12</y>
+                                                <x>9</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>13</y>
+                                        <x>8</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <Requirement>4</Requirement>
+                                        <RollStatus>4</RollStatus>
+                                        <ListModifiers>
+                                                <DiceModifier>
+                                                        <Cell/>
+                                                        <Skill>-1</Skill>
+                                                        <Type>2</Type>
+                                                        <Value>1</Value>
+                                                </DiceModifier>
+                                        </ListModifiers>
+                                        <IsOrderCompleted>1</IsOrderCompleted>
+                                        <RollType>2</RollType>
+                                        <CoachChoices>
+                                                <ConcernedTeam>1</ConcernedTeam>
+                                                <ListCells/>
+                                                <ListDices>(5)</ListDices>
+                                                <ListSkills>
+                                                        <SkillInfo>
+                                                                <PlayerId>37</PlayerId>
+                                                                <SkillId>7</SkillId>
+                                                        </SkillInfo>
+                                                        <SkillInfo>
+                                                                <PlayerId>37</PlayerId>
+                                                                <SkillId>59</SkillId>
+                                                        </SkillInfo>
+                                                </ListSkills>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
     </ReplayStep>
 </Replay>
 """

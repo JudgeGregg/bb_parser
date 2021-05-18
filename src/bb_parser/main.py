@@ -21,6 +21,7 @@ def main():
                 text = TextIOWrapper(bb_file, encoding="utf-8")
                 replayer = Replayer()
                 replayer.parse_replay(text)
+                replayer.display_stats()
 
 
 class Replayer():
@@ -31,7 +32,6 @@ class Replayer():
         teams = self.parse_game_infos(root)
         self.stats = Stats(teams)
         self.parse_events(root)
-        self.display_stats()
 
     def parse_events(self, root):
         for event in root.iter(
