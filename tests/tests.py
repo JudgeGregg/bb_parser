@@ -5,7 +5,7 @@ from lxml import etree
 
 from bb_parser.main import Replayer, Parser, Stats
 
-import bb_parser.tests.fixtures as fixtures
+from . import fixtures
 
 
 class TestGameInfos(unittest.TestCase):
