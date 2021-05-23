@@ -37,28 +37,29 @@ ROLL_TO_ACTION = {
     40: "take_root",
     72: "impact_of_the_bomb",
     25: "regeneration",
+    49: "animosity",
     54: "fireball",
     55: "lightning_bolt",
-    27: "ignored",  # Always Hungry
-    32: "ignored",  # Shadowing
-    34: "ignored",  # Stab
-    37: "ignored",  # Foul Appearance
-    38: "ignored",  # Tentacles
-    39: "ignored",  # Chainsaw
+    27: "always_hungry",
+    32: "shadowing",
+    34: "stab",
+    37: "foul_appearance",
+    38: "tentacles",
+    46: "hypnotic_gaze",
+    50: "bloodlust",
+    39: "chainsaw",
+    52: "bribe",
+    71: "sweltering_heat",
+    45: "pro",
     41: "ignored",  # Fanatic Movement
-    44: "ignored",  # FIXME Diving Tacle?
-    45: "ignored",  # Pro
-    46: "ignored",  # Hypnotic Gaze
-    50: "ignored",  # Bloodlust
-    52: "ignored",  # Bribe
+    44: "ignored",  # FIXME Diving Tackle?
     59: "ignored",  # Piling On Armour
     60: "ignored",  # Piling On Injury
     61: "ignored",  # Diving Catch
-    71: "ignored",  # Sweltering Heat
     73: "ignored",  # Chainsaw armour roll
     62: "ignored",  # FIXME DS -> P through Dodge?
-    63: "ignored",  # FIXME???
-    64: "ignored",  # FIXME???
+    63: "foo",  # FIXME???
+    64: "bar",  # FIXME???
 }
 
 BLOCK_SYMBOL = {
@@ -72,4 +73,31 @@ BLOCK_SYMBOL = {
 
 SKILLS = {
     30: "block",
+}
+
+ID_RACE_TO_NAME = {
+    "1": "Humans",
+    "2": "Dwarfs",
+    "3": "Skavens",
+    "4": "Orcs",
+    "5": "Lizardmen",
+    "6": "Goblins",
+    "7": "Wood Elves",
+    "8": "Chaos",
+    "9": "Dark Elves",
+    "10": "Undead",
+    "11": "Halflings",
+    "12": "Norse",
+    "13": "Amazons",
+    "14": "Elven Union",
+    "15": "High Elves",
+    "16": "Khemri",
+    "17": "Necromantic",
+    "18": "Nurgle",
+    "19": "Ogres",
+    "20": "Vampires",
+    "21": "Chaos Dwarfs",
+    "22": "Underworld Denizens",
+    "24": "Bretonnians",
+    "25": "Kislev Circus",
 }

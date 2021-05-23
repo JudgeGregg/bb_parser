@@ -78,3 +78,14 @@ DODGES:
 <Reroll>1< == Reroll available?
 <RollStatus>1< == Reroll successfuly used?
 <RollStatus>2< == Reroll not used / failed?
+
+
+BUGS?
+
+- Casualty counted twice if apoc used
+- Dodge requirement missing if rolled 1
+- Blocks counted twice if frenzy
+- Inaccurate pass scatter if TTM
+- Dodge roll displayed twice if Break Tacle used
+- Dodge "failed" before Break Tacle is used
+- Pitch Invasion not taken into account

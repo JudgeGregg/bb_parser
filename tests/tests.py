@@ -3,7 +3,7 @@ from io import StringIO
 
 from lxml import etree
 
-from bb_parser.main import Replayer, Parser, Stats
+from bb_parser.main import Replayer, Parser, Stats, display_stats
 
 from . import fixtures
 
@@ -16,8 +16,8 @@ class TestGameInfos(unittest.TestCase):
 
     def test_parse(self):
         text = StringIO(fixtures.GAME_INFO_FIXTURE)
-        self.replayer.parse_replay(text)
-        self.replayer.display_stats()
+        stats = self.replayer.parse_replay(text)
+        display_stats(stats)
 
     def test_gameinfos(self):
         self.text = StringIO(fixtures.GAME_INFO_FIXTURE)
@@ -43,7 +43,8 @@ class TestDodge(unittest.TestCase):
     def setUp(self):
         self.replayer = Replayer()
         self.replayer.parser = Parser()
-        self.replayer.stats = Stats(("Team1", "Team2"))
+        self.replayer.stats = Stats(
+            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
 
     def test_dodge_success(self):
         self.text = StringIO(fixtures.DODGE_SUCCESS_FIXTURE)
@@ -84,7 +85,8 @@ class TestBlock(unittest.TestCase):
     def setUp(self):
         self.replayer = Replayer()
         self.replayer.parser = Parser()
-        self.replayer.stats = Stats(("Team1", "Team2"))
+        self.replayer.stats = Stats(
+            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
 
     def test_block_with_rr(self):
         self.text = StringIO(fixtures.BLOCK_WITH_RR_FIXTURE)

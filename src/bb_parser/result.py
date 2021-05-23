@@ -58,7 +58,7 @@ class Parser():
             if action_res.findtext("./IsOrderCompleted") == "1":
                 print("=> " + dices)
                 return
-            elif action_res.find("./RollStatus") is not None and action_res.findtext("./RollStatus") == "2":
+            elif action_res.findtext("./RollStatus") == "2":
                 print("REROLL NOT AVAILABLE!")
                 return
             else:
@@ -90,8 +90,12 @@ class Parser():
 
         dices = action_res.find(".//ListDices").text
 
-        if action_res.find("./RollStatus") is not None and action_res.findtext("./RollStatus") == "2":
+        if action_res.findtext("./RollStatus") == "2":
             print("Ignoring, reroll not used or not available")
+            return
+
+        if action_res.findtext("./SubResultType") == "22":
+            print("Ignoring, break tackle used")
             return
 
         print(dices)

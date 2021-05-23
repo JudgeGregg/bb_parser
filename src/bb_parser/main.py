@@ -20,8 +20,59 @@ def main():
             with bb_zip.open(file_path.stem) as bb_file:
                 text = TextIOWrapper(bb_file, encoding="utf-8")
                 replayer = Replayer()
-                replayer.parse_replay(text)
-                replayer.display_stats()
+                stats = replayer.parse_replay(text)
+                display_stats(stats)
+
+
+def display_stats(stats):
+    for team in stats:
+        print("="*77)
+        print(team)
+        print("="*77)
+        print("GFI")
+        print(stats[team]["gfi"])
+        print("ARMOUR")
+        print(stats[team]["armour"])
+        print("TOTAL ARMOURS:")
+        total_armours = []
+        for rolls in stats[team]["armour"].values():
+            for roll in rolls:
+                total_armours.append(roll)
+        print(len(total_armours))
+        print("INJURY")
+        print(stats[team]["injury"])
+        print("CASUALTY")
+        print(stats[team]["casualty"])
+        print("WAKE UP KO")
+        print(stats[team]["wake_up_ko"])
+        print("DODGE")
+        print(stats[team]["dodge"])
+        print("PICKUP")
+        print(stats[team]["pickup"])
+        print("PASS")
+        print(stats[team]["pass"])
+        print("CATCH")
+        print(stats[team]["catch"])
+        print("INTERCEPT")
+        print(stats[team]["intercept"])
+        print("LANDING")
+        print(stats[team]["landing"])
+        print("TTM")
+        print(stats[team]["throw_team_mate"])
+        print("BLOCK DICE")
+        print(stats[team]["block"])
+        print("BLOCK DICE DISTRIBUTION")
+        print(stats[team]["blocks"])
+        print("TOTAL BLOCKS")
+        total_blocks = 0
+        for rolls in stats[team]["blocks"].values():
+            total_blocks += rolls
+        print(total_blocks)
+        print("BLOCKS PER PLAYER")
+        for player_name, roll_hist in stats[team]["players"].items():
+            print(player_name, roll_hist)
+        print("D6 DICE DISTRIBUTION")
+        print(stats[team]["dice"])
 
 
 class Replayer():
@@ -32,77 +83,43 @@ class Replayer():
         teams = self.parse_game_infos(root)
         self.stats = Stats(teams)
         self.parse_events(root)
+        self.parse_endgame(root)
+        return self.stats.stats
 
     def parse_events(self, root):
-        for event in root.iter(
-                "RulesEventBoardAction", "RulesEventKickOffTable"):
-            if event.tag == "RulesEventKickOffTable":
-                pass
-            else:
-                self.parse_board_action(event)
+        for event in root.iter("RulesEventBoardAction"):
+            self.parse_board_action(event)
 
     def parse_game_infos(self, root):
         game_infos = root.find("./ReplayStep/GameInfos")
         coaches_infos = game_infos.findall("CoachesInfos/CoachInfos")
         print("Coaches:")
+        coaches = []
         for coach in coaches_infos:
             print(coach.findtext(".//Login"))
+            coaches.append(coach.findtext(".//Login"))
         teams = []
-        teams_elem = game_infos.getparent().findall(".//TeamState/Data/Name")
-        for team in teams_elem:
-            teams.append(team.text)
+        teams_elem = game_infos.getparent().findall(".//TeamState/Data")
+        for index, team in enumerate(teams_elem):
+            teams.append((team.findtext("Name"),
+                          team.findtext("IdRace"), coaches[index]))
+        print("TEAMS:")
         print(teams)
         return teams
 
-    def display_stats(self):
-        for team in self.stats.stats:
-            print("="*77)
-            print(team)
-            print("="*77)
-            print("GFI")
-            print(self.stats.stats[team]["gfi"])
-            print("ARMOUR")
-            print(self.stats.stats[team]["armour"])
-            print("TOTAL ARMOURS:")
-            total_armours = []
-            for rolls in self.stats.stats[team]["armour"].values():
-                for roll in rolls:
-                    total_armours.append(roll)
-            print(len(total_armours))
-            print("INJURY")
-            print(self.stats.stats[team]["injury"])
-            print("CASUALTY")
-            print(self.stats.stats[team]["casualty"])
-            print("WAKE UP KO")
-            print(self.stats.stats[team]["wake_up_ko"])
-            print("DODGE")
-            print(self.stats.stats[team]["dodge"])
-            print("PICKUP")
-            print(self.stats.stats[team]["pickup"])
-            print("PASS")
-            print(self.stats.stats[team]["pass"])
-            print("CATCH")
-            print(self.stats.stats[team]["catch"])
-            print("INTERCEPT")
-            print(self.stats.stats[team]["intercept"])
-            print("LANDING")
-            print(self.stats.stats[team]["landing"])
-            print("TTM")
-            print(self.stats.stats[team]["throw_team_mate"])
-            print("BLOCK DICE")
-            print(self.stats.stats[team]["block"])
-            print("BLOCK DICE DISTRIBUTION")
-            print(self.stats.stats[team]["blocks"])
-            print("TOTAL BLOCKS")
-            total_blocks = 0
-            for rolls in self.stats.stats[team]["blocks"].values():
-                total_blocks += rolls
-            print(total_blocks)
-            print("BLOCKS PER PLAYER")
-            for player_name, roll_hist in self.stats.stats[team]["players"].items():
-                print(player_name, roll_hist)
-            print("D6 DICE DISTRIBUTION")
-            print(self.stats.stats[team]["dice"])
+    def parse_endgame(self, root):
+        match_result = root.find(
+            "./ReplayStep/RulesEventGameFinished/MatchResult")
+        home_team_name = match_result.findtext("./Row/TeamHomeName")
+        home_score = match_result.findtext("./Row/HomeScore")
+        away_team_name = match_result.findtext("./Row/TeamAwayName")
+        away_score = match_result.findtext("./Row/AwayScore")
+        if not home_score:
+            home_score = "0"
+        if not away_score:
+            away_score = "0"
+        self.stats.stats[home_team_name]["score"] = home_score
+        self.stats.stats[away_team_name]["score"] = away_score
 
     def parse_board_action(self, event):
         # Is there a dice roll in this action?
@@ -294,12 +311,87 @@ class Replayer():
         if result:
             self.stats.add_lightning_bolt(result, actor)
 
-    def stand_up(self, action_res, player_id):
-        pass
+    def stand_up(self, action_res, actor):
+        print("stand up")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_stand_up(result, actor)
 
     def inaccurate_pass(self, action_res, actor):
         # These are recorded in game whereas they're 8 sided rolls??
         pass
+
+    def animosity(self, action_res, actor):
+        print("animosity")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_animosity(result, actor)
+
+    def always_hungry(self, action_res, actor):
+        print("always_hungry")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_always_hungry(result, actor)
+
+    def shadowing(self, action_res, actor):
+        print("shadowing")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_shadowing(result, actor)
+
+    def stab(self, action_res, actor):
+        print("stab")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_stab(result, actor)
+
+    def foul_appearance(self, action_res, actor):
+        print("foul_appearance")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_foul_appearance(result, actor)
+
+    def tentacles(self, action_res, actor):
+        print("tentacles")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_tentacles(result, actor)
+
+    def hypnotic_gaze(self, action_res, actor):
+        print("hypnotic_gaze")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_hypnotic_gaze(result, actor)
+
+    def bloodlust(self, action_res, actor):
+        print("bloodlust")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_bloodlust(result, actor)
+
+    def bribe(self, action_res, actor):
+        print("bribe")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_bribe(result, actor)
+
+    def chainsaw(self, action_res, actor):
+        print("chainsaw")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_chainsaw(result, actor)
+
+    def sweltering_heat(self, action_res, actor):
+        print("sweltering_heat")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_sweltering_heat(result, actor)
+
+    def pro(self, action_res, actor):
+        print("pro")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_pro(result, actor)
 
 
 if __name__ == "__main__":

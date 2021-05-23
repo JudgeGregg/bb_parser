@@ -1,5 +1,5 @@
 from collections import defaultdict
-from bb_parser.mappings import BLOCK_SYMBOL
+from bb_parser.mappings import BLOCK_SYMBOL, ID_RACE_TO_NAME
 
 
 class Stats():
@@ -7,9 +7,11 @@ class Stats():
     def __init__(self, teams):
         self.stats = {}
         self.teams = set()
-        for team in teams:
+        for team, race, coach in teams:
             self.teams.add(team)
             self.stats[team] = {}
+            self.stats[team]["race"] = ID_RACE_TO_NAME.get(race, race)
+            self.stats[team]["coach"] = coach
             # All D6 dices (histogram)
             self.stats[team]["dice"] = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
             # Injuries
@@ -22,7 +24,7 @@ class Stats():
             self.stats[team]["blocks"] = {"AD": 0, "BD": 0, "P": 0, "DS": 0, "DD": 0}
             self.stats[team]["players"] = defaultdict(list)
             # Movement
-            self.stats[team]["gfi"] = list()
+            self.stats[team]["gfi"] = defaultdict(list)
             self.stats[team]["dodge"] = defaultdict(list)
             # Ball handling
             self.stats[team]["pickup"] = defaultdict(list)
@@ -71,23 +73,23 @@ class Stats():
         dice = result.dices
         requirement = result.requirement
         opposing_team = self.teams.difference(set([actor.team])).pop()
-        self.add_dice(dice, actor.team)
-        # self.add_dice(dice, opposing_team)
+        # self.add_dice(dice, actor.team)
+        self.add_dice(dice, opposing_team)
         self.stats[opposing_team]["armour"][requirement].append(dice)
 
     def add_injury(self, result, actor):
         dice = result.dices
         opposing_team = self.teams.difference(set([actor.team])).pop()
-        self.add_dice(dice, actor.team)
-        # self.add_dice(dice, opposing_team)
+        # self.add_dice(dice, actor.team)
+        self.add_dice(dice, opposing_team)
         self.stats[opposing_team]["injury"].append(dice)
 
     def add_casualty(self, result, actor):
         dice = result.dices
         parsed_casualty_dice = self.parse_casualty_dice(dice)
         opposing_team = self.teams.difference(set([actor.team])).pop()
-        self.add_dice(parsed_casualty_dice, actor.team)
-        # self.add_dice(dice, opposing_team)
+        # self.add_dice(parsed_casualty_dice, actor.team)
+        self.add_dice(parsed_casualty_dice, opposing_team)
         self.stats[opposing_team]["casualty"].append(dice)
 
     def add_wake_up_ko(self, result, actor):
@@ -151,7 +153,8 @@ class Stats():
     def add_gfi(self, result, actor):
         dice = result.dices
         self.add_dice(dice, actor.team)
-        self.stats[actor.team]["gfi"].append(dice)
+        requirement = result.requirement
+        self.stats[actor.team]["gfi"][requirement].append(dice)
 
     def add_bone_head(self, result, actor):
         dice = result.dices
@@ -208,5 +211,57 @@ class Stats():
         self.add_dice(dice, actor.team)
 
     def add_lightning_bolt(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_stand_up(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_animosity(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_always_hungry(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_shadowing(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_stab(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_foul_appearance(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_tentacles(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_hypnotic_gaze(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_bloodlust(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_bribe(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_chainsaw(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_sweltering_heat(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
+    def add_pro(self, result, actor):
         dice = result.dices
         self.add_dice(dice, actor.team)
