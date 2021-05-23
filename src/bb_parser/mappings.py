@@ -58,8 +58,8 @@ ROLL_TO_ACTION = {
     61: "ignored",  # Diving Catch
     73: "ignored",  # Chainsaw armour roll
     62: "ignored",  # FIXME DS -> P through Dodge?
-    63: "foo",  # FIXME???
-    64: "bar",  # FIXME???
+    63: "ignored",  # FIXME???
+    64: "ignored",  # FIXME???
 }
 
 BLOCK_SYMBOL = {

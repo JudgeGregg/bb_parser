@@ -22,6 +22,51 @@ class Parser():
         self.current_team = None
         self.current_turn = 0
 
+    def parse_game_infos(self, root):
+        game_infos = root.find("./ReplayStep/GameInfos")
+        coaches_infos = game_infos.findall("CoachesInfos/CoachInfos")
+        print("Coaches:")
+        coaches = []
+        for coach in coaches_infos:
+            print(coach.findtext(".//Login"))
+            coaches.append(coach.findtext(".//Login"))
+        teams = []
+        teams_elem = game_infos.getparent().findall(".//TeamState/Data")
+        for index, team in enumerate(teams_elem):
+            teams.append((team.findtext("Name"),
+                          team.findtext("IdRace"), coaches[index]))
+        print("TEAMS:")
+        print(teams)
+        return teams
+
+    def parse_events(self, root):
+        for event in root.iter("RulesEventBoardAction"):
+            for rolltype, action_res, actor in self.parse_board_action(event):
+                yield rolltype, action_res, actor
+
+    def parse_board_action(self, event):
+        # Is there a dice roll in this action?
+        for action_res in event.iter("BoardActionResult"):
+            dices = action_res.find(".//ListDices")
+            if dices is not None:
+                actor = self.get_team_and_turn(event)
+                rolltype = action_res.find("./RollType")
+                rolltype = int(rolltype.text)
+                yield rolltype, action_res, actor
+
+    def parse_endgame(self, root):
+        match_result = root.find(
+            "./ReplayStep/RulesEventGameFinished/MatchResult")
+        home_team_name = match_result.findtext("./Row/TeamHomeName")
+        home_score = match_result.findtext("./Row/HomeScore")
+        away_team_name = match_result.findtext("./Row/TeamAwayName")
+        away_score = match_result.findtext("./Row/AwayScore")
+        if not home_score:
+            home_score = "0"
+        if not away_score:
+            away_score = "0"
+        return home_team_name, home_score, away_team_name, away_score
+
     def get_team_and_turn(self, event):
         team = None
         turn = None

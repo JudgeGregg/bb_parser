@@ -35,6 +35,20 @@ GAME_INFO_FIXTURE = """<?xml version="1.0" ?>
             </ListTeams>
         </BoardState>
     </ReplayStep>
+    <ReplayStep>
+        <RulesEventGameFinished>
+            <MatchResult>
+                <Row>
+                    <CoachAwayName>JudgeGregg</CoachAwayName>
+                    <HomeScore>1</HomeScore>
+                    <CoachHomeName>SNOT SPIRIT</CoachHomeName>
+                    <TeamHomeName>Team1</TeamHomeName>
+                    <TeamAwayName>Team2</TeamAwayName>
+                    <AwayScore>1</AwayScore>
+                </Row>
+            </MatchResult>
+        </RulesEventGameFinished>
+    </ReplayStep>
 </Replay>
 """
 

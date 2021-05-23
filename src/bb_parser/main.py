@@ -6,7 +6,7 @@ from io import TextIOWrapper
 
 from lxml import etree
 
-from bb_parser.result import Parser
+from bb_parser.parser import Parser
 from bb_parser.mappings import ROLL_TO_ACTION
 from bb_parser.stats import Stats
 
@@ -77,60 +77,23 @@ def display_stats(stats):
 
 class Replayer():
 
+    def get_stats(self):
+        return self.stats.get_stats()
+
     def parse_replay(self, replay_file):
         self.parser = Parser()
         root = etree.fromstring(replay_file.read())
-        teams = self.parse_game_infos(root)
+        teams = self.parser.parse_game_infos(root)
         self.stats = Stats(teams)
         self.parse_events(root)
-        self.parse_endgame(root)
-        return self.stats.stats
-
-    def parse_events(self, root):
-        for event in root.iter("RulesEventBoardAction"):
-            self.parse_board_action(event)
-
-    def parse_game_infos(self, root):
-        game_infos = root.find("./ReplayStep/GameInfos")
-        coaches_infos = game_infos.findall("CoachesInfos/CoachInfos")
-        print("Coaches:")
-        coaches = []
-        for coach in coaches_infos:
-            print(coach.findtext(".//Login"))
-            coaches.append(coach.findtext(".//Login"))
-        teams = []
-        teams_elem = game_infos.getparent().findall(".//TeamState/Data")
-        for index, team in enumerate(teams_elem):
-            teams.append((team.findtext("Name"),
-                          team.findtext("IdRace"), coaches[index]))
-        print("TEAMS:")
-        print(teams)
-        return teams
-
-    def parse_endgame(self, root):
-        match_result = root.find(
-            "./ReplayStep/RulesEventGameFinished/MatchResult")
-        home_team_name = match_result.findtext("./Row/TeamHomeName")
-        home_score = match_result.findtext("./Row/HomeScore")
-        away_team_name = match_result.findtext("./Row/TeamAwayName")
-        away_score = match_result.findtext("./Row/AwayScore")
-        if not home_score:
-            home_score = "0"
-        if not away_score:
-            away_score = "0"
+        home_team_name, home_score, away_team_name, away_score = self.parser.parse_endgame(root)
         self.stats.stats[home_team_name]["score"] = home_score
         self.stats.stats[away_team_name]["score"] = away_score
+        return self.stats.get_stats()
 
-    def parse_board_action(self, event):
-        # Is there a dice roll in this action?
-        for action_res in event.iter("BoardActionResult"):
-            dices = action_res.find(".//ListDices")
-            if dices is not None:
-                actor = self.parser.get_team_and_turn(event)
-                rolltype = action_res.find("./RollType")
-                rolltype = int(rolltype.text)
-                self.__getattribute__(ROLL_TO_ACTION[rolltype])(
-                    action_res, actor)
+    def parse_events(self, root):
+        for rolltype, action_res, actor in self.parser.parse_events(root):
+            self.__getattribute__(ROLL_TO_ACTION[rolltype])(action_res, actor)
 
     def dodge(self, action_res, actor):
         print("dodge")

@@ -89,3 +89,4 @@ BUGS?
 - Dodge roll displayed twice if Break Tacle used
 - Dodge "failed" before Break Tacle is used
 - Pitch Invasion not taken into account
+- Sweltering Heat not taken into account

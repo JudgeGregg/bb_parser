@@ -12,7 +12,7 @@ class TestGameInfos(unittest.TestCase):
 
     def setUp(self):
         self.replayer = Replayer()
-        self.replayer.parser = Parser()
+        self.parser = Parser()
 
     def test_parse(self):
         text = StringIO(fixtures.GAME_INFO_FIXTURE)
@@ -22,7 +22,7 @@ class TestGameInfos(unittest.TestCase):
     def test_gameinfos(self):
         self.text = StringIO(fixtures.GAME_INFO_FIXTURE)
         self.root = etree.fromstring(self.text.read())
-        teams = self.replayer.parse_game_infos(self.root)
+        teams = self.parser.parse_game_infos(self.root)
         self.assertEqual(len(teams), 2)
 
 
@@ -30,12 +30,12 @@ class TestFansWeather(unittest.TestCase):
 
     def setUp(self):
         self.replayer = Replayer()
-        self.replayer.parser = Parser()
+        self.parser = Parser()
         self.text = StringIO(fixtures.WEATHER_FANS_FIXTURE)
         self.root = etree.fromstring(self.text.read())
 
     def test_fans_weather(self):
-        self.replayer.parse_events(self.root)
+        self.parser.parse_events(self.root)
 
 
 class TestDodge(unittest.TestCase):
@@ -50,7 +50,7 @@ class TestDodge(unittest.TestCase):
         self.text = StringIO(fixtures.DODGE_SUCCESS_FIXTURE)
         self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.root)
-        stats = self.replayer.stats.stats
+        stats = self.replayer.get_stats()
         self.assertEqual(len(stats["Team1"]["dodge"]), 1)
         self.assertEqual(stats["Team1"]["dodge"]["3"], ["(5)"])
 
@@ -58,7 +58,7 @@ class TestDodge(unittest.TestCase):
         self.text = StringIO(fixtures.DODGE_FAILURE_DESPITE_RR_FIXTURE)
         self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.root)
-        stats = self.replayer.stats.stats
+        stats = self.replayer.get_stats()
         self.assertEqual(len(stats["Team1"]["dodge"]), 1)
         self.assertEqual(stats["Team1"]["dodge"]["3"], ["(1)", "(2)"])
 
