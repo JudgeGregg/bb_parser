@@ -1,5 +1,6 @@
 from collections import defaultdict
-from bb_parser.mappings import BLOCK_SYMBOL, ID_RACE_TO_NAME
+
+from .mappings import BLOCK_SYMBOL, ID_RACE_TO_NAME
 
 
 class Stats():

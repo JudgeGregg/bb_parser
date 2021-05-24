@@ -1,4 +1,4 @@
-from bb_parser.mappings import BLOCK, ARMOUR, CASUALTY
+from .mappings import BLOCK, ARMOUR, CASUALTY
 
 
 class Result():

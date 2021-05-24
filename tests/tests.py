@@ -1,7 +1,6 @@
 import unittest
 from io import StringIO, BytesIO
 import zipfile
-from pathlib import Path
 
 from lxml import etree
 

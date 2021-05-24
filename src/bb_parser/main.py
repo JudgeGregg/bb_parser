@@ -6,9 +6,9 @@ from io import TextIOWrapper
 
 from lxml import etree
 
-from bb_parser.parser import Parser
-from bb_parser.mappings import ROLL_TO_ACTION
-from bb_parser.stats import Stats
+from .parser import Parser
+from .mappings import ROLL_TO_ACTION
+from .stats import Stats
 
 
 def main():
