@@ -16,12 +16,9 @@ def main():
         print("FILENAME:")
         print(file_)
         file_path = Path(file_)
-        with zipfile.ZipFile(file_path) as bb_zip:
-            with bb_zip.open(file_path.stem) as bb_file:
-                text = TextIOWrapper(bb_file, encoding="utf-8")
-                replayer = Replayer()
-                stats = replayer.parse_replay(text)
-                display_stats(stats)
+        replayer = Replayer()
+        stats = replayer.parse_replay(file_path)
+        display_stats(stats)
 
 
 def display_stats(stats):
@@ -80,16 +77,23 @@ class Replayer():
     def get_stats(self):
         return self.stats.get_stats()
 
-    def parse_replay(self, replay_file):
-        self.parser = Parser()
-        root = etree.fromstring(replay_file.read())
-        teams = self.parser.parse_game_infos(root)
-        self.stats = Stats(teams)
-        self.parse_events(root)
-        home_team_name, home_score, away_team_name, away_score = self.parser.parse_endgame(root)
-        self.stats.stats[home_team_name]["score"] = home_score
-        self.stats.stats[away_team_name]["score"] = away_score
-        return self.stats.get_stats()
+    def parse_replay(self, file_or_zip):
+        if isinstance(file_or_zip, Path):
+            bb_zip = zipfile.ZipFile(file_or_zip)
+        else:
+            bb_zip = file_or_zip
+        bb_file = bb_zip.namelist()[0]
+        with bb_zip.open(bb_file) as bb_file:
+            text_file = TextIOWrapper(bb_file, encoding="utf-8")
+            root = etree.fromstring(text_file.read())
+            self.parser = Parser()
+            teams = self.parser.parse_game_infos(root)
+            self.stats = Stats(teams)
+            self.parse_events(root)
+            home_team_name, home_score, away_team_name, away_score = self.parser.parse_endgame(root)
+            self.stats.stats[home_team_name]["score"] = home_score
+            self.stats.stats[away_team_name]["score"] = away_score
+            return self.stats.get_stats()
 
     def parse_events(self, root):
         for rolltype, action_res, actor in self.parser.parse_events(root):

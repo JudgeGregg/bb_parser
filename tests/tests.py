@@ -1,5 +1,7 @@
 import unittest
-from io import StringIO
+from io import StringIO, BytesIO
+import zipfile
+from pathlib import Path
 
 from lxml import etree
 
@@ -15,8 +17,11 @@ class TestGameInfos(unittest.TestCase):
         self.parser = Parser()
 
     def test_parse(self):
-        text = StringIO(fixtures.GAME_INFO_FIXTURE)
-        stats = self.replayer.parse_replay(text)
+        text = BytesIO(fixtures.GAME_INFO_FIXTURE.encode("UTF-8"))
+        mem_zip = BytesIO()
+        with zipfile.ZipFile(mem_zip, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+            zf.writestr("foo", text.read())
+            stats = self.replayer.parse_replay(zf)
         display_stats(stats)
 
     def test_gameinfos(self):
@@ -129,3 +134,56 @@ class TestBlock(unittest.TestCase):
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["block"]), 1)
         self.assertEqual(stats["Team1"]["blocks"]["DS"], 1)
+
+
+class TestArmour(unittest.TestCase):
+
+    def setUp(self):
+        self.replayer = Replayer()
+        self.replayer.parser = Parser()
+        self.replayer.stats = Stats(
+            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
+
+    def test_armour(self):
+        self.text = StringIO(fixtures.ARMOUR_ROLL_FIXTURE)
+        self.root = etree.fromstring(self.text.read())
+        self.replayer.parse_events(self.root)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team2"]["armour"]), 1)
+        self.assertEqual(stats["Team2"]["armour"]["9"], ["(2,5)"])
+        self.assertEqual(stats["Team2"]["dice"]["2"], 1)
+        self.assertEqual(stats["Team2"]["dice"]["5"], 1)
+
+    def test_injury(self):
+        self.text = StringIO(fixtures.INJURY_ROLL_FIXTURE)
+        self.root = etree.fromstring(self.text.read())
+        self.replayer.parse_events(self.root)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team2"]["injury"]), 1)
+        self.assertEqual(stats["Team2"]["injury"], ["(2,4)"])
+        self.assertEqual(stats["Team2"]["dice"]["2"], 1)
+        self.assertEqual(stats["Team2"]["dice"]["4"], 1)
+
+    def test_casualty(self):
+        self.text = StringIO(fixtures.CASUALTY_ROLL_FIXTURE)
+        self.root = etree.fromstring(self.text.read())
+        self.replayer.parse_events(self.root)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team2"]["casualty"]), 1)
+        self.assertEqual(stats["Team2"]["casualty"], ["(15,1)"])
+        self.assertEqual(stats["Team2"]["dice"]["1"], 1)
+
+    def test_casualty_apo(self):
+        self.text = StringIO(fixtures.CASUALTY_APO_FIXTURE)
+        self.root = etree.fromstring(self.text.read())
+        self.replayer.parse_events(self.root)
+        stats = self.replayer.stats.stats
+        self.assertEqual(stats["Team2"]["casualty"], ["(62,63,18,18)"])
+        self.assertEqual(stats["Team2"]["dice"]["6"], 1)
+
+    def test_casualty_reroll(self):
+        self.text = StringIO(fixtures.CASUALTY_CHOICE_FIXTURE)
+        self.root = etree.fromstring(self.text.read())
+        self.replayer.parse_events(self.root)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team2"]["casualty"]), 0)

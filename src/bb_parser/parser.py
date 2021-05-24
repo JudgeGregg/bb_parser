@@ -50,8 +50,7 @@ class Parser():
             dices = action_res.find(".//ListDices")
             if dices is not None:
                 actor = self.get_team_and_turn(event)
-                rolltype = action_res.find("./RollType")
-                rolltype = int(rolltype.text)
+                rolltype = action_res.findtext("./RollType")
                 yield rolltype, action_res, actor
 
     def parse_endgame(self, root):
@@ -96,7 +95,7 @@ class Parser():
         return Actor(team, turn, player_name)
 
     def get_result(self, action_res):
-        rolltype = int(action_res.findtext("./RollType"))
+        rolltype = action_res.findtext("./RollType")
         if rolltype == BLOCK:
             # Ignore requirements on block
             dices = action_res.find(".//ListDices").text

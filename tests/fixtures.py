@@ -1202,3 +1202,288 @@ DODGE_SUCCESS_WITH_SKILL_FIXTURE = """<?xml version="1.0" ?>
     </ReplayStep>
 </Replay>
 """
+
+ARMOUR_ROLL_FIXTURE = """<?xml version="1.0" ?>
+<Replay>
+    <ReplayStep>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <ActionType>6</ActionType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>10</y>
+                                                <x>10</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>10</y>
+                                        <x>10</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <Requirement>9</Requirement>
+                                        <ListModifiers/>
+                                        <ResultType>1</ResultType>
+                                        <IsOrderCompleted>1</IsOrderCompleted>
+                                        <RollType>3</RollType>
+                                        <SubResultType>1</SubResultType>
+                                        <CoachChoices>
+                                                <ListCells/>
+                                                <ListDices>(2,5)</ListDices>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
+    </ReplayStep>
+</Replay>
+"""
+
+INJURY_ROLL_FIXTURE = """<?xml version="1.0" ?>
+<Replay>
+    <ReplayStep>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <ActionType>6</ActionType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>10</y>
+                                                <x>10</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>10</y>
+                                        <x>10</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <ListModifiers/>
+                                        <ResultType>1</ResultType>
+                                        <IsOrderCompleted>1</IsOrderCompleted>
+                                        <RollType>4</RollType>
+                                        <SubResultType>2</SubResultType>
+                                        <CoachChoices>
+                                                <ListCells/>
+                                                <ListDices>(2,4)</ListDices>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
+    </ReplayStep>
+</Replay>
+"""
+
+CASUALTY_ROLL_FIXTURE = """<?xml version="1.0" ?>
+<Replay>
+    <ReplayStep>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <ActionType>6</ActionType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>10</y>
+                                                <x>10</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>10</y>
+                                        <x>10</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <ListModifiers/>
+                                        <IsOrderCompleted>1</IsOrderCompleted>
+                                        <RollType>8</RollType>
+                                        <SubResultType>1</SubResultType>
+                                        <CoachChoices>
+                                                <ListCells/>
+                                                <ListDices>(15,1)</ListDices>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
+    </ReplayStep>
+</Replay>
+"""
+
+CASUALTY_APO_FIXTURE = """<?xml version="1.0" ?>
+<Replay>
+    <ReplayStep>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <ActionType>6</ActionType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>10</y>
+                                                <x>10</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>10</y>
+                                        <x>10</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <RollStatus>1</RollStatus>
+                                        <RequestType>2</RequestType>
+                                        <ListModifiers/>
+                                        <ResultType>2</ResultType>
+                                        <RollType>8</RollType>
+                                        <CoachChoices>
+                                                <ListCells/>
+                                                <ListDices>(62,63,18,18)</ListDices>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
+    </ReplayStep>
+</Replay>
+"""
+
+CASUALTY_CHOICE_FIXTURE = """<?xml version="1.0" ?>
+<Replay>
+    <ReplayStep>
+                <RulesEventBoardAction>
+                        <PlayerId>1</PlayerId>
+                        <RequestType>1</RequestType>
+                        <ActionType>6</ActionType>
+                        <Order>
+                                <CellTo>
+                                        <Cell>
+                                                <y>10</y>
+                                                <x>10</x>
+                                        </Cell>
+                                </CellTo>
+                                <CellFrom>
+                                        <y>10</y>
+                                        <x>10</x>
+                                </CellFrom>
+                        </Order>
+                        <Results>
+                                <BoardActionResult>
+                                        <RollStatus>1</RollStatus>
+                                        <ListModifiers/>
+                                        <IsOrderCompleted>1</IsOrderCompleted>
+                                        <RollType>8</RollType>
+                                        <SubResultType>18</SubResultType>
+                                        <CoachChoices>
+                                                <ListCells/>
+                                                <ListDices>(62,18)</ListDices>
+                                                <ListSkills/>
+                                        </CoachChoices>
+                                </BoardActionResult>
+                        </Results>
+                </RulesEventBoardAction>
+                <BoardState>
+                        <ListTeams>
+                                <TeamState>
+                                        <GameTurn>1</GameTurn>
+                                        <ListPitchPlayers>
+                                                <PlayerState>
+                                                    <Id>1</Id>
+                                                    <Data>
+                                                       <Name>Test Player</Name>
+                                                       <Id>1</Id>
+                                                    </Data>
+                                                </PlayerState>
+                                        </ListPitchPlayers>
+                                        <Data>
+                                            <Name>Team1</Name>
+                                        </Data>
+                                </TeamState>
+                        </ListTeams>
+                </BoardState>
+    </ReplayStep>
+</Replay>
+"""

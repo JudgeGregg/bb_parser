@@ -1,65 +1,64 @@
-CASUALTY = 8
-BLOCK = 5
-ARMOUR = 3
-DODGE = 2
+CASUALTY = "8"
+BLOCK = "5"
+ARMOUR = "3"
 
 # Rolltype -> Action
 ROLL_TO_ACTION = {
-    1: "gfi",
-    15: "foul",  # Useless since armour is roll on a separate event
-    22: "wild_animal",
-    2: "dodge",
-    69: "fan_attendance",
-    70: "weather",
-    53: "halfing_chef",
-    10: "kickoff",
-    5: "block",
-    3: "armour",
-    4: "injury",
-    6: "stand_up",
-    7: "pickup",
-    8: "casualty",
-    9: "catch",
-    12: "pass_",
-    16: "intercept",
-    21: "really_stupid",
-    23: "loner",
-    26: "inaccurate_pass",  # Inaccurate Pass scatter
-    17: "wake_up_ko",
-    11: "throw_in",
-    56: "throw_team_mate",
-    24: "landing",
-    58: "kickoff_gust",
-    20: "bone_head",
-    29: "dauntless",
-    31: "jump_up",
-    36: "leap",
-    40: "take_root",
-    72: "impact_of_the_bomb",
-    25: "regeneration",
-    49: "animosity",
-    54: "fireball",
-    55: "lightning_bolt",
-    27: "always_hungry",
-    32: "shadowing",
-    34: "stab",
-    37: "foul_appearance",
-    38: "tentacles",
-    46: "hypnotic_gaze",
-    50: "bloodlust",
-    39: "chainsaw",
-    52: "bribe",
-    71: "sweltering_heat",
-    45: "pro",
-    41: "ignored",  # Fanatic Movement
-    44: "ignored",  # FIXME Diving Tackle?
-    59: "ignored",  # Piling On Armour
-    60: "ignored",  # Piling On Injury
-    61: "ignored",  # Diving Catch
-    73: "ignored",  # Chainsaw armour roll
-    62: "ignored",  # FIXME DS -> P through Dodge?
-    63: "ignored",  # FIXME???
-    64: "ignored",  # FIXME???
+    "1": "gfi",
+    "2": "dodge",
+    "3": "armour",
+    "4": "injury",
+    "5": "block",
+    "6": "stand_up",
+    "7": "pickup",
+    "8": "casualty",
+    "9": "catch",
+    "10": "kickoff",
+    "11": "throw_in",
+    "12": "pass_",
+    "15": "foul",  # Useless since armour is roll on a separate event
+    "16": "intercept",
+    "17": "wake_up_ko",
+    "20": "bone_head",
+    "21": "really_stupid",
+    "22": "wild_animal",
+    "23": "loner",
+    "24": "landing",
+    "25": "regeneration",
+    "26": "inaccurate_pass",  # Inaccurate Pass scatter
+    "27": "always_hungry",
+    "29": "dauntless",
+    "31": "jump_up",
+    "32": "shadowing",
+    "34": "stab",
+    "36": "leap",
+    "39": "chainsaw",
+    "37": "foul_appearance",
+    "38": "tentacles",
+    "40": "take_root",
+    "41": "ignored",  # Fanatic Movement
+    "44": "ignored",  # FIXME Diving Tackle?
+    "45": "pro",
+    "46": "hypnotic_gaze",
+    "49": "animosity",
+    "50": "bloodlust",
+    "52": "bribe",
+    "53": "halfing_chef",
+    "54": "fireball",
+    "55": "lightning_bolt",
+    "56": "throw_team_mate",
+    "58": "kickoff_gust",
+    "59": "ignored",  # FIXME Piling On Armour?
+    "60": "ignored",  # FIXME Piling On Injury?
+    "61": "ignored",  # FIXME Diving Catch?
+    "62": "ignored",  # FIXME DS -> P through Dodge?
+    "63": "ignored",  # FIXME???
+    "64": "ignored",  # FIXME???
+    "69": "fan_attendance",
+    "70": "weather",
+    "72": "impact_of_the_bomb",
+    "71": "sweltering_heat",
+    "73": "ignored",  # FIXME Chainsaw armour roll
 }
 
 BLOCK_SYMBOL = {
@@ -70,9 +69,9 @@ BLOCK_SYMBOL = {
     "4": "DD",
 }
 
-
+# Not used
 SKILLS = {
-    30: "block",
+    "30": "block",
 }
 
 ID_RACE_TO_NAME = {
