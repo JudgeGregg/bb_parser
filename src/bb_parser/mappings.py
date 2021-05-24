@@ -52,8 +52,8 @@ ROLL_TO_ACTION = {
     "60": "ignored",  # FIXME Piling On Injury?
     "61": "ignored",  # FIXME Diving Catch?
     "62": "ignored",  # FIXME DS -> P through Dodge?
-    "63": "ignored",  # FIXME???
-    "64": "ignored",  # FIXME???
+    "63": "ignored",  # FIXME Stand Firm?
+    "64": "ignored",  # FIXME Juggernaut?
     "69": "fan_attendance",
     "70": "weather",
     "72": "impact_of_the_bomb",

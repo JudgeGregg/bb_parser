@@ -97,7 +97,11 @@ class Replayer():
 
     def parse_events(self, root):
         for rolltype, action_res, actor in self.parser.parse_events(root):
-            self.__getattribute__(ROLL_TO_ACTION[rolltype])(action_res, actor)
+            try:
+                self.__getattribute__(
+                    ROLL_TO_ACTION[rolltype])(action_res, actor)
+            except KeyError as e:
+                print("ERROR: Missing key: {}".format(e))
 
     def dodge(self, action_res, actor):
         print("dodge")
