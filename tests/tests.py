@@ -18,7 +18,8 @@ class TestGameInfos(unittest.TestCase):
     def test_parse(self):
         text = BytesIO(fixtures.GAME_INFO_FIXTURE.encode("UTF-8"))
         mem_zip = BytesIO()
-        with zipfile.ZipFile(mem_zip, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+        with zipfile.ZipFile(
+                mem_zip, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
             zf.writestr("foo", text.read())
             stats = self.replayer.parse_replay(zf)
         display_stats(stats)

@@ -81,7 +81,6 @@ DODGES:
 
 
 BUGS?
-
 - Casualty counted twice if apoc used
 - Dodge requirement missing if rolled 1
 - Blocks counted twice if frenzy
@@ -90,3 +89,6 @@ BUGS?
 - Dodge "failed" before Break Tacle is used
 - Pitch Invasion not taken into account
 - Sweltering Heat not taken into account
+
+TO CHECK:
+-shadowing?
