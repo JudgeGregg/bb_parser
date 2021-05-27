@@ -1,12 +1,16 @@
 import unittest
 from io import StringIO, BytesIO
 import zipfile
+import logging
 
 from lxml import etree
 
-from bb_parser.main import Replayer, Parser, Stats, display_stats
+from bb_parser.main import Replayer, Parser, Stats
+from bb_parser.cli import display_stats
 
 from . import fixtures
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 class TestGameInfos(unittest.TestCase):
@@ -134,6 +138,15 @@ class TestBlock(unittest.TestCase):
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["block"]), 1)
         self.assertEqual(stats["Team1"]["blocks"]["DS"], 1)
+
+    def test_2d_block_no_rr_tackle(self):
+        self.text = StringIO(fixtures.BLOCK_2D_NO_RR_TACKLE_FIXTURE)
+        self.root = etree.fromstring(self.text.read())
+        self.replayer.parse_events(self.root)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team1"]["block"]), 1)
+        self.assertEqual(stats["Team1"]["blocks"]["DS"], 1)
+        self.assertEqual(stats["Team1"]["blocks"]["BD"], 1)
 
 
 class TestArmour(unittest.TestCase):

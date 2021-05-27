@@ -67,11 +67,12 @@ RulesEventBoardAction
 
 
 BLOCKS:
-<RequestType>5< == Ask for team reroll?
+<RequestType>5< == Ask for team reroll or dice pick?
 <Reroll>1< == Reroll available?
 <RollStatus>1< == Reroll successfuly used?
 <RollStatus>2< == Reroll not used / failed?
 <RequestType>2< == Ask for picking a dice
+<RequestType>4< == Ask for skill use?
 
 DODGES:
 <RequestType>1< == Ask for team reroll?
@@ -83,7 +84,7 @@ DODGES:
 BUGS?
 - Casualty counted twice if apoc used
 - Dodge requirement missing if rolled 1
-- Blocks counted twice if frenzy
+- Blocks counted twice if frenzy or loner or -2D not rerolled?
 - Inaccurate pass scatter if TTM
 - Dodge roll displayed twice if Break Tacle used
 - Dodge "failed" before Break Tacle is used
@@ -91,4 +92,4 @@ BUGS?
 - Sweltering Heat not taken into account
 
 TO CHECK:
--shadowing?
+-shadowing to appropriate team?

@@ -1,4 +1,8 @@
+import logging
+
 from .mappings import BLOCK, ARMOUR, CASUALTY
+
+log = logging.getLogger("bb_parser")
 
 
 class Result():
@@ -25,18 +29,18 @@ class Parser():
     def parse_game_infos(self, root):
         game_infos = root.find("./ReplayStep/GameInfos")
         coaches_infos = game_infos.findall("CoachesInfos/CoachInfos")
-        print("Coaches:")
+        log.debug("COACHES:")
         coaches = []
         for coach in coaches_infos:
-            print(coach.findtext(".//Login"))
+            log.debug(coach.findtext(".//Login"))
             coaches.append(coach.findtext(".//Login"))
         teams = []
         teams_elem = game_infos.getparent().findall(".//TeamState/Data")
         for index, team in enumerate(teams_elem):
             teams.append((team.findtext("Name"),
                           team.findtext("IdRace"), coaches[index]))
-        print("TEAMS:")
-        print(teams)
+        log.debug("TEAMS:")
+        log.debug(teams)
         return teams
 
     def parse_events(self, root):
@@ -73,8 +77,8 @@ class Parser():
         player_id = event.findtext("PlayerId")
         if player_id:
             player_id = int(player_id)
-            print("Player ID:")
-            print(player_id)
+            log.debug("Player ID:")
+            log.debug(player_id)
             if player_id == -1:  # Wizard
                 return Actor(self.current_team, self.current_turn)
             elem_id = event.getparent().xpath("./BoardState/ListTeams/TeamState/ListPitchPlayers/PlayerState/Id[text()='{}']".format(player_id))[0]
@@ -86,12 +90,12 @@ class Parser():
                 self.current_turn = turn
             team = elem_team_state.findtext("./Data/Name")
             self.current_team = team
-            print("Turn:")
-            print(turn)
-            print("Team:")
-            print(team)
-            print("Player:")
-            print(player_name)
+            log.debug("Turn:")
+            log.debug(turn)
+            log.debug("Team:")
+            log.debug(team)
+            log.debug("Player:")
+            log.debug(player_name)
         return Actor(team, turn, player_name)
 
     def get_result(self, action_res):
@@ -100,19 +104,22 @@ class Parser():
             # Ignore requirements on block
             dices = action_res.find(".//ListDices").text
             if action_res.findtext("./IsOrderCompleted") == "1":
-                print("=> " + dices)
+                log.debug("=> " + dices)
                 return
             elif action_res.findtext("./RollStatus") == "2":
-                print("REROLL NOT AVAILABLE!")
+                log.debug("Ignoring, reroll not used or not available")
+                return
+            elif action_res.findtext("./RequestType") == "4":
+                log.debug("Ignoring, skill used")
                 return
             else:
-                print(dices)
+                log.debug(dices)
                 res = Result(dices)
                 return res
 
         if rolltype == CASUALTY:
             if action_res.findtext("./RollStatus") == "1" and action_res.findtext("./IsOrderCompleted") == "1":
-                print("Ignoring, casualty choice")
+                log.debug("Ignoring, casualty choice")
                 return
 
         requirement = action_res.findtext("./Requirement")
@@ -130,18 +137,18 @@ class Parser():
                 requirement = 6
             if requirement != requirement_init and rolltype == ARMOUR:
                 requirement = str(requirement) + "*"
-            print(str(requirement) + "+")
+            log.debug(str(requirement) + "+")
 
         dices = action_res.find(".//ListDices").text
 
         if action_res.findtext("./RollStatus") == "2":
-            print("Ignoring, reroll not used or not available")
+            log.debug("Ignoring, reroll not used or not available")
             return
 
         if action_res.findtext("./SubResultType") == "22":
-            print("Ignoring, break tackle used")
+            log.debug("Ignoring, break tackle used")
             return
 
-        print(dices)
+        log.debug(dices)
         res = Result(dices, str(requirement))
         return res

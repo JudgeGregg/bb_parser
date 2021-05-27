@@ -10,7 +10,7 @@ setup(name="bb_parser",
       install_requires=["lxml"],
       entry_points={
         'console_scripts': [
-            'bb2_parser=bb_parser.main:main',
+            'bb2_parser=bb_parser.cli:main',
         ]
       },
       extras_require={
