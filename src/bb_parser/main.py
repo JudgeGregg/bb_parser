@@ -43,10 +43,9 @@ class Replayer():
     def parse_events(self, root):
         for rolltype, action_res, actor in self.parser.parse_events(root):
             try:
-                self.handle_event(
-                    ROLL_TO_ACTION[rolltype], action_res, actor)
+                self.handle_event(ROLL_TO_ACTION[rolltype], action_res, actor)
             except KeyError as e:
-                log.error("ERROR: Missing key: {}".format(e))
+                log.error("ERROR:Missing key: {}".format(e))
 
     def handle_event(self, action_name, action_res, actor):
         log.debug(action_name)
@@ -55,4 +54,7 @@ class Replayer():
         if action_name in IGNORED_ACTIONS:
             return
         if result:
-            self.stats.__getattribute__("add_" + action_name)(result, actor)
+            try:
+                self.stats.__getattribute__("add_" + action_name)(result, actor)
+            except AttributeError as e:
+                log.error("ERROR:Missing attribute: {}".format(e))

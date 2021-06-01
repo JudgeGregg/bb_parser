@@ -8,10 +8,11 @@ from .main import Replayer
 
 
 def main():
+    log = logging.getLogger("bb_parser")
     logging.basicConfig(level=logging.DEBUG)
     for file_ in sys.argv[1:]:
-        print("FILENAME:")
-        print(file_)
+        log.debug("FILENAME:")
+        log.debug(file_)
         file_path = Path(file_)
         replayer = Replayer()
         stats = replayer.parse_replay(file_path)
