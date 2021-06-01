@@ -31,7 +31,9 @@ class Replayer():
             root = etree.fromstring(text_file.read())
             self.parser = Parser()
             teams = self.parser.parse_game_infos(root)
+            date = self.parser.parse_game_date(root)
             self.stats = Stats(teams)
+            self.stats.stats["date"] = date
             self.parse_events(root)
             home_team_name, home_score, away_team_name, away_score = self.parser.parse_endgame(root)
             self.stats.stats[home_team_name]["score"] = home_score

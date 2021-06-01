@@ -42,6 +42,7 @@ GAME_INFO_FIXTURE = """<?xml version="1.0" ?>
                     <CoachAwayName>JudgeGregg</CoachAwayName>
                     <HomeScore>1</HomeScore>
                     <CoachHomeName>SNOT SPIRIT</CoachHomeName>
+                    <Finished>2021-05-02 12:47:04.302264</Finished>
                     <TeamHomeName>Team1</TeamHomeName>
                     <TeamAwayName>Team2</TeamAwayName>
                     <AwayScore>1</AwayScore>

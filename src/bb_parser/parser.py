@@ -26,6 +26,12 @@ class Parser():
         self.current_team = None
         self.current_turn = 0
 
+    def parse_game_date(self, root):
+        match_result = root.find(
+            "./ReplayStep/RulesEventGameFinished/MatchResult")
+        date = match_result.findtext("./Row/Finished").split(".")[0]
+        return date
+
     def parse_game_infos(self, root):
         game_infos = root.find("./ReplayStep/GameInfos")
         coaches_infos = game_infos.findall("CoachesInfos/CoachInfos")
