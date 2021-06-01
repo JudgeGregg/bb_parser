@@ -234,6 +234,10 @@ class Stats():
         dice = result.dices
         self.add_dice(dice, actor.team)
 
+    def add_snack(self, result, actor):
+        dice = result.dices
+        self.add_dice(dice, actor.team)
+
     def add_shadowing(self, result, actor):
         dice = result.dices
         self.add_dice(dice, actor.team)

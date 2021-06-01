@@ -247,6 +247,12 @@ class Replayer():
         if result:
             self.stats.add_always_hungry(result, actor)
 
+    def snack(self, action_res, actor):
+        log.debug("snack")
+        result = self.parser.get_result(action_res)
+        if result:
+            self.stats.add_snack(result, actor)
+
     def shadowing(self, action_res, actor):
         log.debug("shadowing")
         result = self.parser.get_result(action_res)

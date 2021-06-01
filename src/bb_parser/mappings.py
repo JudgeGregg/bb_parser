@@ -27,6 +27,7 @@ ROLL_TO_ACTION = {
     "25": "regeneration",
     "26": "inaccurate_pass",  # Inaccurate Pass scatter
     "27": "always_hungry",
+    "28": "snack",
     "29": "dauntless",
     "31": "jump_up",
     "32": "shadowing",
