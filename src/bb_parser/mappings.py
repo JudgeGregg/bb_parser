@@ -2,6 +2,18 @@ CASUALTY = "8"
 BLOCK = "5"
 ARMOUR = "3"
 
+IGNORED_ACTIONS = [
+    "fan_attendance",
+    "weather",
+    "halfing_chef",
+    "kickoff",
+    "kickoff_gust",
+    "ignored",
+    "foul",
+    "throw_in",
+    "inaccurate_pass",
+]
+
 # Rolltype -> Action
 ROLL_TO_ACTION = {
     "1": "gfi",
@@ -15,7 +27,7 @@ ROLL_TO_ACTION = {
     "9": "catch",
     "10": "kickoff",
     "11": "throw_in",
-    "12": "pass_",
+    "12": "pass",
     "15": "foul",  # Useless since armour is roll on a separate event
     "16": "intercept",
     "17": "wake_up_ko",
