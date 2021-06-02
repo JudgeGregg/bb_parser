@@ -1,22 +1,59 @@
 #!/usr/bin/python
 import sys
 import pprint
+import json
 from pathlib import Path
 import logging
+import getopt
 
 from .main import Replayer
 
+# Options
+options = "hdp"
+
+# Long options
+long_options = ["help", "debug", "pretty"]
+
+help_message = """
+Usage:
+bb2_parser [-d] [-p] [-h] path_to_replay_file1_bbrz path_to_replay_file2_bbrz …
+
+Outputs stats as a json object
+
+-d, --debug adds debugging info
+-p, --pretty pretty prints stats dict
+-h, --help shows this message and exits
+"""
+
 
 def main():
+    argument_list = sys.argv[1:]
+    pretty = False
     log = logging.getLogger("bb_parser")
-    logging.basicConfig(level=logging.DEBUG)
-    for file_ in sys.argv[1:]:
+    try:
+        arguments, values = getopt.getopt(argument_list, options, long_options)
+        for argument, value in arguments:
+            if argument in ("-h", "--help"):
+                print(help_message)
+                sys.exit(0)
+            elif argument in ("-d", "--debug"):
+                logging.basicConfig(level=logging.DEBUG)
+            if argument in ("-p", "--pretty"):
+                pretty = True
+    except getopt.error as err:
+        print(err)
+        print(help_message)
+        sys.exit(1)
+    for file_ in values:
         log.debug("FILENAME:")
         log.debug(file_)
         file_path = Path(file_)
         replayer = Replayer()
         stats = replayer.parse_replay(file_path)
-        pprint.pprint(stats, compact=True, width=179)
+        if pretty:
+            pprint.pprint(stats, compact=True, width=179)
+        else:
+            print(json.dumps(stats))
 
 
 def display_stats(stats):
