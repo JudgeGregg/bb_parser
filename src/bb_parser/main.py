@@ -1,9 +1,6 @@
 import zipfile
 from pathlib import Path
-from io import TextIOWrapper
 import logging
-
-from lxml import etree
 
 
 from .mappings import ROLL_TO_ACTION, IGNORED_ACTIONS
@@ -27,21 +24,22 @@ class Replayer():
             bb_zip = file_or_zip
         bb_file = bb_zip.namelist()[0]
         with bb_zip.open(bb_file) as bb_file:
-            text_file = TextIOWrapper(bb_file, encoding="utf-8")
-            root = etree.fromstring(text_file.read())
             self.parser = Parser()
-            teams = self.parser.parse_game_infos(root)
-            date = self.parser.parse_game_date(root)
+            teams = self.parser.parse_game_infos(bb_file)
+            bb_file.seek(0)
+            date = self.parser.parse_game_date(bb_file)
+            bb_file.seek(0)
             self.stats = Stats(teams)
             self.stats.stats["date"] = date
-            self.parse_events(root)
-            home_team_name, home_score, away_team_name, away_score = self.parser.parse_endgame(root)
+            self.parse_events(bb_file)
+            bb_file.seek(0)
+            home_team_name, home_score, away_team_name, away_score = self.parser.parse_endgame(bb_file)
             self.stats.stats[home_team_name]["score"] = home_score
             self.stats.stats[away_team_name]["score"] = away_score
             return self.stats.get_stats()
 
-    def parse_events(self, root):
-        for rolltype, action_res, actor in self.parser.parse_events(root):
+    def parse_events(self, text):
+        for rolltype, action_res, actor in self.parser.parse_events(text):
             try:
                 self.handle_event(ROLL_TO_ACTION[rolltype], action_res, actor)
             except KeyError as e:

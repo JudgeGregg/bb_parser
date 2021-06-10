@@ -1,5 +1,7 @@
 import logging
 
+from lxml import etree
+
 from .mappings import BLOCK, ARMOUR, CASUALTY
 
 log = logging.getLogger("bb_parser")
@@ -26,14 +28,29 @@ class Parser():
         self.current_team = None
         self.current_turn = 0
 
-    def parse_game_date(self, root):
-        match_result = root.find(
-            "./ReplayStep/RulesEventGameFinished/MatchResult")
+    def parse_game_date(self, text):
+        clear = True
+        match_result = None
+        for event, elem in etree.iterparse(text, events=("start", "end")):
+            if elem.tag == "MatchResult" and event == "start":
+                clear = False
+            if elem.tag == "MatchResult" and event == "end":
+                clear = True
+                match_result = elem
+                break
+            else:
+                if clear:
+                    elem.clear(keep_tail=True)
         date = match_result.findtext("./Row/Finished").split(".")[0]
         return date
 
-    def parse_game_infos(self, root):
-        game_infos = root.find("./ReplayStep/GameInfos")
+    def parse_game_infos(self, text):
+        game_infos = None
+        for event, elem in etree.iterparse(text):
+            if elem.tag == "GameInfos":
+                game_infos = elem
+                teams_state = elem.getparent()
+                break
         coaches_infos = game_infos.findall("CoachesInfos/CoachInfos")
         log.debug("COACHES:")
         coaches = []
@@ -41,18 +58,21 @@ class Parser():
             log.debug(coach.findtext(".//Login"))
             coaches.append(coach.findtext(".//Login"))
         teams = []
-        teams_elem = game_infos.getparent().findall(".//TeamState/Data")
+        teams_elem = teams_state.findall(".//TeamState/Data")
         for index, team in enumerate(teams_elem):
-            teams.append((team.findtext("Name"),
-                          team.findtext("IdRace"), coaches[index]))
+            teams.append((team.findtext(".//Name"),
+                          team.findtext(".//IdRace"), coaches[index]))
         log.debug("TEAMS:")
         log.debug(teams)
         return teams
 
-    def parse_events(self, root):
-        for event in root.iter("RulesEventBoardAction"):
-            for rolltype, action_res, actor in self.parse_board_action(event):
-                yield rolltype, action_res, actor
+    def parse_events(self, text):
+        for _, step in etree.iterparse(text, tag="ReplayStep"):
+            for event in step.iter("RulesEventBoardAction"):
+                for rolltype, action_res, actor in self.parse_board_action(event):
+                    yield rolltype, action_res, actor
+                event.clear(keep_tail=True)
+            step.clear(keep_tail=True)
 
     def parse_board_action(self, event):
         # Is there a dice roll in this action?
@@ -63,9 +83,19 @@ class Parser():
                 rolltype = action_res.findtext("./RollType")
                 yield rolltype, action_res, actor
 
-    def parse_endgame(self, root):
-        match_result = root.find(
-            "./ReplayStep/RulesEventGameFinished/MatchResult")
+    def parse_endgame(self, text):
+        clear = True
+        match_result = None
+        for event, elem in etree.iterparse(text, events=("start", "end")):
+            if elem.tag == "MatchResult" and event == "start":
+                clear = False
+            if elem.tag == "MatchResult" and event == "end":
+                clear = True
+                match_result = elem
+                break
+            else:
+                if clear:
+                    elem.clear(keep_tail=True)
         home_team_name = match_result.findtext("./Row/TeamHomeName")
         home_score = match_result.findtext("./Row/HomeScore")
         away_team_name = match_result.findtext("./Row/TeamAwayName")
