@@ -1,9 +1,6 @@
 import zipfile
 from pathlib import Path
-from io import TextIOWrapper
 import logging
-
-from lxml import etree
 
 
 from .mappings import ROLL_TO_ACTION, IGNORED_ACTIONS
@@ -27,25 +24,32 @@ class Replayer():
             bb_zip = file_or_zip
         bb_file = bb_zip.namelist()[0]
         with bb_zip.open(bb_file) as bb_file:
-            text_file = TextIOWrapper(bb_file, encoding="utf-8")
-            root = etree.fromstring(text_file.read())
             self.parser = Parser()
-            teams = self.parser.parse_game_infos(root)
-            date = self.parser.parse_game_date(root)
+            teams = self.parser.parse_game_infos(bb_file)
+            bb_file.seek(0)
             self.stats = Stats(teams)
-            self.stats.stats["date"] = date
-            self.parse_events(root)
-            home_team_name, home_score, away_team_name, away_score = self.parser.parse_endgame(root)
-            self.stats.stats[home_team_name]["score"] = home_score
-            self.stats.stats[away_team_name]["score"] = away_score
+            self.parse_events(bb_file)
             return self.stats.get_stats()
 
-    def parse_events(self, root):
-        for rolltype, action_res, actor in self.parser.parse_events(root):
-            try:
-                self.handle_event(ROLL_TO_ACTION[rolltype], action_res, actor)
-            except KeyError as e:
-                log.error("ERROR:Missing key: {}".format(e))
+    def parse_events(self, text):
+        for event in self.parser.parse_events(text):
+            if event.type == "action":
+                rolltype = event.rolltype
+                action_res = event.action_res
+                actor = event.actor
+                try:
+                    self.handle_event(ROLL_TO_ACTION[rolltype], action_res, actor)
+                except KeyError as e:
+                    log.error("ERROR:Missing key: {}".format(e))
+            elif event.type == "match_result":
+                date = event.date
+                home_team_name = event.home_team_name
+                home_score = event.home_score
+                away_team_name = event.away_team_name
+                away_score = event.away_score
+                self.stats.stats["date"] = date
+                self.stats.stats[home_team_name]["score"] = home_score
+                self.stats.stats[away_team_name]["score"] = away_score
 
     def handle_event(self, action_name, action_res, actor):
         log.debug(action_name)
