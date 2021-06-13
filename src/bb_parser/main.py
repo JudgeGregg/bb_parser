@@ -27,23 +27,29 @@ class Replayer():
             self.parser = Parser()
             teams = self.parser.parse_game_infos(bb_file)
             bb_file.seek(0)
-            date = self.parser.parse_game_date(bb_file)
-            bb_file.seek(0)
             self.stats = Stats(teams)
-            self.stats.stats["date"] = date
             self.parse_events(bb_file)
-            bb_file.seek(0)
-            home_team_name, home_score, away_team_name, away_score = self.parser.parse_endgame(bb_file)
-            self.stats.stats[home_team_name]["score"] = home_score
-            self.stats.stats[away_team_name]["score"] = away_score
             return self.stats.get_stats()
 
     def parse_events(self, text):
-        for rolltype, action_res, actor in self.parser.parse_events(text):
-            try:
-                self.handle_event(ROLL_TO_ACTION[rolltype], action_res, actor)
-            except KeyError as e:
-                log.error("ERROR:Missing key: {}".format(e))
+        for event in self.parser.parse_events(text):
+            if event.type == "action":
+                rolltype = event.rolltype
+                action_res = event.action_res
+                actor = event.actor
+                try:
+                    self.handle_event(ROLL_TO_ACTION[rolltype], action_res, actor)
+                except KeyError as e:
+                    log.error("ERROR:Missing key: {}".format(e))
+            elif event.type == "match_result":
+                date = event.date
+                home_team_name = event.home_team_name
+                home_score = event.home_score
+                away_team_name = event.away_team_name
+                away_score = event.away_score
+                self.stats.stats["date"] = date
+                self.stats.stats[home_team_name]["score"] = home_score
+                self.stats.stats[away_team_name]["score"] = away_score
 
     def handle_event(self, action_name, action_res, actor):
         log.debug(action_name)

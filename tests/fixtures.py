@@ -1,4 +1,4 @@
-GAME_INFO_FIXTURE = """<?xml version="1.0" ?>
+GAME_INFO_FIXTURE = b"""<?xml version="1.0" ?>
 
 <Replay>
 
@@ -53,7 +53,7 @@ GAME_INFO_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-WEATHER_FANS_FIXTURE = """<?xml version="1.0" ?>
+WEATHER_FANS_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
 <ReplayStep>
     <RulesEventKickOffChoice>
@@ -114,7 +114,7 @@ WEATHER_FANS_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-BLOCK_WITH_RR_FIXTURE = """<?xml version="1.0" ?>
+BLOCK_WITH_RR_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -285,7 +285,7 @@ BLOCK_WITH_RR_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-BLOCK_NO_RR_FIXTURE = """<?xml version="1.0" ?>
+BLOCK_NO_RR_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -417,7 +417,7 @@ BLOCK_NO_RR_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-BLOCK_RR_LONER_FIXTURE = """<?xml version="1.0" ?>
+BLOCK_RR_LONER_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -561,7 +561,7 @@ BLOCK_RR_LONER_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-BLOCK_ONE_DIE_WITH_RR_FIXTURE = """<?xml version="1.0" ?>
+BLOCK_ONE_DIE_WITH_RR_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -717,7 +717,7 @@ BLOCK_ONE_DIE_WITH_RR_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-BLOCK_ONE_DIE_NO_RR_FIXTURE = """<?xml version="1.0" ?>
+BLOCK_ONE_DIE_NO_RR_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -821,7 +821,7 @@ BLOCK_ONE_DIE_NO_RR_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-BLOCK_2D_NO_RR_TACKLE_FIXTURE = """<?xml version="1.0" ?>
+BLOCK_2D_NO_RR_TACKLE_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -972,7 +972,7 @@ BLOCK_2D_NO_RR_TACKLE_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-DODGE_SUCCESS_FIXTURE = """<?xml version="1.0" ?>
+DODGE_SUCCESS_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -1034,7 +1034,7 @@ DODGE_SUCCESS_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-DODGE_FAILURE_DESPITE_RR_FIXTURE = """<?xml version="1.0" ?>
+DODGE_FAILURE_DESPITE_RR_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -1136,7 +1136,7 @@ DODGE_FAILURE_DESPITE_RR_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-DODGE_FAILURE_NO_RR_FIXTURE = """<?xml version="1.0" ?>
+DODGE_FAILURE_NO_RR_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -1241,7 +1241,7 @@ DODGE_FAILURE_NO_RR_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-DODGE_SUCCESS_WITH_SKILL_FIXTURE = """<?xml version="1.0" ?>
+DODGE_SUCCESS_WITH_SKILL_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -1355,7 +1355,7 @@ DODGE_SUCCESS_WITH_SKILL_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-ARMOUR_ROLL_FIXTURE = """<?xml version="1.0" ?>
+ARMOUR_ROLL_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -1413,7 +1413,7 @@ ARMOUR_ROLL_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-INJURY_ROLL_FIXTURE = """<?xml version="1.0" ?>
+INJURY_ROLL_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -1470,7 +1470,7 @@ INJURY_ROLL_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-CASUALTY_ROLL_FIXTURE = """<?xml version="1.0" ?>
+CASUALTY_ROLL_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -1526,7 +1526,7 @@ CASUALTY_ROLL_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-CASUALTY_APO_FIXTURE = """<?xml version="1.0" ?>
+CASUALTY_APO_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
@@ -1583,7 +1583,7 @@ CASUALTY_APO_FIXTURE = """<?xml version="1.0" ?>
 </Replay>
 """
 
-CASUALTY_CHOICE_FIXTURE = """<?xml version="1.0" ?>
+CASUALTY_CHOICE_FIXTURE = b"""<?xml version="1.0" ?>
 <Replay>
     <ReplayStep>
                 <RulesEventBoardAction>
