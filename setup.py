@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name="bb_parser",
-      version="0.0.2",
+      version="0.0.3",
       description="A parser for Blood Bowl 2 replay files",
       author="Grégoire Juge",
       author_email="gregoire.juge@gmail.com",
