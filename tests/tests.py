@@ -1,9 +1,7 @@
 import unittest
-from io import StringIO, BytesIO
+from io import BytesIO
 import zipfile
 import logging
-
-from lxml import etree
 
 from bb_parser.main import Replayer, Parser, Stats
 from bb_parser.cli import display_stats
@@ -30,7 +28,6 @@ class TestGameInfos(unittest.TestCase):
 
     def test_gameinfos(self):
         self.text = BytesIO(fixtures.GAME_INFO_FIXTURE)
-        # self.root = self.text.read()
         teams = self.parser.parse_game_infos(self.text)
         self.assertEqual(len(teams), 2)
 
@@ -45,7 +42,6 @@ class TestDodge(unittest.TestCase):
 
     def test_dodge_success(self):
         self.text = BytesIO(fixtures.DODGE_SUCCESS_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.get_stats()
         self.assertEqual(len(stats["Team1"]["dodge"]), 1)
@@ -53,7 +49,6 @@ class TestDodge(unittest.TestCase):
 
     def test_dodge_failure_despite_rr(self):
         self.text = BytesIO(fixtures.DODGE_FAILURE_DESPITE_RR_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.get_stats()
         self.assertEqual(len(stats["Team1"]["dodge"]), 1)
@@ -61,7 +56,6 @@ class TestDodge(unittest.TestCase):
 
     def test_dodge_failure_no_rr(self):
         self.text = BytesIO(fixtures.DODGE_FAILURE_NO_RR_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["dodge"]), 1)
@@ -69,7 +63,6 @@ class TestDodge(unittest.TestCase):
 
     def test_dodge_success_with_skill(self):
         self.text = BytesIO(fixtures.DODGE_SUCCESS_WITH_SKILL_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["dodge"]), 2)
@@ -87,7 +80,6 @@ class TestBlock(unittest.TestCase):
 
     def test_block_with_rr(self):
         self.text = BytesIO(fixtures.BLOCK_WITH_RR_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["block"]), 2)
@@ -96,7 +88,6 @@ class TestBlock(unittest.TestCase):
 
     def test_block_no_rr(self):
         self.text = BytesIO(fixtures.BLOCK_NO_RR_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["block"]), 1)
@@ -105,7 +96,6 @@ class TestBlock(unittest.TestCase):
 
     def test_block_rr_loner(self):
         self.text = BytesIO(fixtures.BLOCK_RR_LONER_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["block"]), 1)
@@ -113,7 +103,6 @@ class TestBlock(unittest.TestCase):
 
     def test_1d_block_with_rr(self):
         self.text = BytesIO(fixtures.BLOCK_ONE_DIE_WITH_RR_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["block"]), 2)
@@ -121,7 +110,6 @@ class TestBlock(unittest.TestCase):
 
     def test_1d_block_no_rr(self):
         self.text = BytesIO(fixtures.BLOCK_ONE_DIE_NO_RR_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["block"]), 1)
@@ -129,7 +117,6 @@ class TestBlock(unittest.TestCase):
 
     def test_2d_block_no_rr_tackle(self):
         self.text = BytesIO(fixtures.BLOCK_2D_NO_RR_TACKLE_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team1"]["block"]), 1)
@@ -147,7 +134,6 @@ class TestArmour(unittest.TestCase):
 
     def test_armour(self):
         self.text = BytesIO(fixtures.ARMOUR_ROLL_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team2"]["armour"]), 1)
@@ -157,7 +143,6 @@ class TestArmour(unittest.TestCase):
 
     def test_injury(self):
         self.text = BytesIO(fixtures.INJURY_ROLL_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team2"]["injury"]), 1)
@@ -167,7 +152,6 @@ class TestArmour(unittest.TestCase):
 
     def test_casualty(self):
         self.text = BytesIO(fixtures.CASUALTY_ROLL_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team2"]["casualty"]), 1)
@@ -176,7 +160,6 @@ class TestArmour(unittest.TestCase):
 
     def test_casualty_apo(self):
         self.text = BytesIO(fixtures.CASUALTY_APO_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(stats["Team2"]["casualty"], ["(62,63,18,18)"])
@@ -184,7 +167,6 @@ class TestArmour(unittest.TestCase):
 
     def test_casualty_reroll(self):
         self.text = BytesIO(fixtures.CASUALTY_CHOICE_FIXTURE)
-        # self.root = etree.fromstring(self.text.read())
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team2"]["casualty"]), 0)
