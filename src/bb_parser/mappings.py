@@ -71,7 +71,7 @@ ROLL_TO_ACTION = {
     "70": "weather",
     "72": "impact_of_the_bomb",
     "71": "sweltering_heat",
-    "73": "ignored",  # FIXME Chainsaw armour roll
+    "73": "chainsaw_armour",
 }
 
 BLOCK_SYMBOL = {

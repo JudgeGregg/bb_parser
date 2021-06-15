@@ -270,6 +270,13 @@ class Stats():
         dice = result.dices
         self.add_dice(dice, actor.team)
 
+    def add_chainsaw_armour(self, result, actor):
+        dice = result.dices
+        requirement = result.requirement
+        opposing_team = self.teams.difference(set([actor.team])).pop()
+        self.add_dice(dice, opposing_team)
+        self.stats[opposing_team]["armour"][requirement].append(dice)
+
     def add_sweltering_heat(self, result, actor):
         dice = result.dices
         self.add_dice(dice, actor.team)
