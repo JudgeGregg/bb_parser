@@ -170,3 +170,91 @@ class TestArmour(unittest.TestCase):
         self.replayer.parse_events(self.text)
         stats = self.replayer.stats.stats
         self.assertEqual(len(stats["Team2"]["casualty"]), 0)
+
+    def test_wakeup_ko_success(self):
+        self.text = BytesIO(fixtures.WAKEUP_KO_SUCCESS_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team1"]["wake_up_ko"]), 1)
+        self.assertEqual(stats["Team1"]["wake_up_ko"]["4"], ["(4)"])
+
+    def test_wakeup_ko_failure(self):
+        self.text = BytesIO(fixtures.WAKEUP_KO_FAILURE_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team1"]["wake_up_ko"]), 1)
+        self.assertEqual(stats["Team1"]["wake_up_ko"]["4"], ["(1)"])
+
+    def test_chainsaw_success(self):
+        self.text = BytesIO(fixtures.CHAINSAW_SUCCESS_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(stats["Team1"]["dice"]["5"], 1)
+
+    def test_chainsaw_armour(self):
+        self.text = BytesIO(fixtures.CHAINSAW_ARMOUR_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(stats["Team1"]["dice"]["6"], 2)
+        self.assertEqual(stats["Team1"]["dice"]["4"], 1)
+        self.assertEqual(stats["Team1"]["dice"]["3"], 1)
+        self.assertEqual(stats["Team1"]["armour"]["6"], ["(6,6)"])
+
+    def test_regeneration_success(self):
+        self.text = BytesIO(fixtures.REGENERATION_SUCCESS_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(stats["Team1"]["dice"]["5"], 1)
+
+
+class TestBallHandling(unittest.TestCase):
+
+    def setUp(self):
+        self.replayer = Replayer()
+        self.replayer.parser = Parser()
+        self.replayer.stats = Stats(
+            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
+
+    def test_pickup_failure(self):
+        self.text = BytesIO(fixtures.PICKUP_FAILURE_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team1"]["pickup"]), 1)
+        self.assertEqual(stats["Team1"]["pickup"]["3"], ["(1)"])
+
+    def test_pass_success(self):
+        self.text = BytesIO(fixtures.PASS_SUCCESS_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team1"]["pass"]), 1)
+        self.assertEqual(stats["Team1"]["pass"]["3"], ["(6)"])
+
+    def test_catch_success(self):
+        self.text = BytesIO(fixtures.CATCH_SUCCESS_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team1"]["catch"]), 1)
+        self.assertEqual(stats["Team1"]["catch"]["4"], ["(6)"])
+
+    def test_intercept_success(self):
+        self.text = BytesIO(fixtures.INTERCEPT_SUCCESS_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team2"]["intercept"]), 1)
+        self.assertEqual(stats["Team2"]["intercept"]["6"], ["(6)"])
+
+
+class TestMove(unittest.TestCase):
+
+    def setUp(self):
+        self.replayer = Replayer()
+        self.replayer.parser = Parser()
+        self.replayer.stats = Stats(
+            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
+
+    def test_gfi_success(self):
+        self.text = BytesIO(fixtures.GFI_SUCCESS_FIXTURE)
+        self.replayer.parse_events(self.text)
+        stats = self.replayer.stats.stats
+        self.assertEqual(len(stats["Team1"]["gfi"]), 1)
+        self.assertEqual(stats["Team1"]["gfi"]["2"], ["(4)"])
