@@ -21,6 +21,7 @@ class Stats():
             self.stats[team]["injury"] = list()
             self.stats[team]["casualty"] = list()
             self.stats[team]["wake_up_ko"] = defaultdict(list)
+            self.stats[team]["regeneration"] = defaultdict(list)
             # Blocks + histogram
             self.stats[team]["block"] = list()
             self.stats[team]["blocks"] = {
@@ -212,7 +213,9 @@ class Stats():
 
     def add_regeneration(self, result, actor):
         dice = result.dices
+        requirement = result.requirement
         self.add_dice(dice, actor.team)
+        self.stats[actor.team]["regeneration"][requirement].append(dice)
 
     def add_fireball(self, result, actor):
         dice = result.dices
