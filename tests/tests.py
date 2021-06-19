@@ -12,7 +12,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 class TestGameInfos(unittest.TestCase):
-
     def setUp(self):
         self.replayer = Replayer()
         self.parser = Parser()
@@ -20,8 +19,7 @@ class TestGameInfos(unittest.TestCase):
     def test_parse(self):
         text = BytesIO(fixtures.GAME_INFO_FIXTURE)
         mem_zip = BytesIO()
-        with zipfile.ZipFile(
-                mem_zip, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+        with zipfile.ZipFile(mem_zip, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
             zf.writestr("foo", text.read())
             stats = self.replayer.parse_replay(zf)
         display_stats(stats)
@@ -33,12 +31,10 @@ class TestGameInfos(unittest.TestCase):
 
 
 class TestDodge(unittest.TestCase):
-
     def setUp(self):
         self.replayer = Replayer()
         self.replayer.parser = Parser()
-        self.replayer.stats = Stats(
-            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
+        self.replayer.stats = Stats((("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
 
     def test_dodge_success(self):
         self.text = BytesIO(fixtures.DODGE_SUCCESS_FIXTURE)
@@ -71,12 +67,10 @@ class TestDodge(unittest.TestCase):
 
 
 class TestBlock(unittest.TestCase):
-
     def setUp(self):
         self.replayer = Replayer()
         self.replayer.parser = Parser()
-        self.replayer.stats = Stats(
-            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
+        self.replayer.stats = Stats((("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
 
     def test_block_with_rr(self):
         self.text = BytesIO(fixtures.BLOCK_WITH_RR_FIXTURE)
@@ -125,12 +119,10 @@ class TestBlock(unittest.TestCase):
 
 
 class TestArmour(unittest.TestCase):
-
     def setUp(self):
         self.replayer = Replayer()
         self.replayer.parser = Parser()
-        self.replayer.stats = Stats(
-            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
+        self.replayer.stats = Stats((("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
 
     def test_armour(self):
         self.text = BytesIO(fixtures.ARMOUR_ROLL_FIXTURE)
@@ -208,12 +200,10 @@ class TestArmour(unittest.TestCase):
 
 
 class TestBallHandling(unittest.TestCase):
-
     def setUp(self):
         self.replayer = Replayer()
         self.replayer.parser = Parser()
-        self.replayer.stats = Stats(
-            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
+        self.replayer.stats = Stats((("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
 
     def test_pickup_failure(self):
         self.text = BytesIO(fixtures.PICKUP_FAILURE_FIXTURE)
@@ -245,12 +235,10 @@ class TestBallHandling(unittest.TestCase):
 
 
 class TestMove(unittest.TestCase):
-
     def setUp(self):
         self.replayer = Replayer()
         self.replayer.parser = Parser()
-        self.replayer.stats = Stats(
-            (("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
+        self.replayer.stats = Stats((("Team1", "Bar", "Foo"), ("Team2", "Baz", "Eggs")))
 
     def test_gfi_success(self):
         self.text = BytesIO(fixtures.GFI_SUCCESS_FIXTURE)

@@ -3,8 +3,7 @@ from collections import defaultdict
 from .mappings import BLOCK_SYMBOL, ID_RACE_TO_NAME
 
 
-class Stats():
-
+class Stats:
     def __init__(self, teams):
         self.stats = {}
         self.teams = set()
@@ -14,8 +13,7 @@ class Stats():
             self.stats[team]["race"] = ID_RACE_TO_NAME.get(race, race)
             self.stats[team]["coach"] = coach
             # All D6 dices (histogram)
-            self.stats[team]["dice"] = {
-                "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
+            self.stats[team]["dice"] = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
             # Injuries
             self.stats[team]["armour"] = defaultdict(list)
             self.stats[team]["injury"] = list()
@@ -24,8 +22,7 @@ class Stats():
             self.stats[team]["regeneration"] = defaultdict(list)
             # Blocks + histogram
             self.stats[team]["block"] = list()
-            self.stats[team]["blocks"] = {
-                "AD": 0, "BD": 0, "P": 0, "DS": 0, "DD": 0}
+            self.stats[team]["blocks"] = {"AD": 0, "BD": 0, "P": 0, "DS": 0, "DD": 0}
             self.stats[team]["players"] = defaultdict(list)
             # Movement
             self.stats[team]["gfi"] = defaultdict(list)
@@ -49,8 +46,7 @@ class Stats():
         return self.stats
 
     def parse_d6_dice(self, dice):
-        return [
-            elem for elem in dice if elem in ("1", "2", "3", "4", "5", "6")]
+        return [elem for elem in dice if elem in ("1", "2", "3", "4", "5", "6")]
 
     def parse_casualty_dice(self, dice):
         dice = dice.split(",")
@@ -62,10 +58,10 @@ class Stats():
 
     def parse_block_dice(self, dice):
         filtered_dice = [
-            elem for elem in dice if elem in (
-                "0", "1", "2", "3", "4", "5", "6")]
+            elem for elem in dice if elem in ("0", "1", "2", "3", "4", "5", "6")
+        ]
         if len(filtered_dice) > 1:
-            dice = filtered_dice[:int(len(filtered_dice)/2)]
+            dice = filtered_dice[: int(len(filtered_dice) / 2)]
         else:
             dice = filtered_dice
         result = []

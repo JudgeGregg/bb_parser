@@ -60,9 +60,9 @@ def display_stats(stats):
     for team in stats:
         if team == "date":
             continue
-        print("="*77)
+        print("=" * 77)
         print(team)
-        print("="*77)
+        print("=" * 77)
         print("GFI")
         print(stats[team]["gfi"])
         print("ARMOUR")

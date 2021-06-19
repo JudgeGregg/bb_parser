@@ -12,8 +12,7 @@ log = logging.getLogger("bb_parser")
 log.addHandler(logging.NullHandler())
 
 
-class Replayer():
-
+class Replayer:
     def get_stats(self):
         return self.stats.get_stats()
 

@@ -7,30 +7,28 @@ from .mappings import BLOCK, ARMOUR, CASUALTY
 log = logging.getLogger("bb_parser")
 
 
-class Result():
-
+class Result:
     def __init__(self, dices, requirement=None):
         self.requirement = requirement
         self.dices = dices
 
 
-class Actor():
-
+class Actor:
     def __init__(self, team, turn, player_name=None):
         self.team = team
         self.turn = turn
         self.player_name = player_name
 
-class Action():
 
+class Action:
     def __init__(self, rolltype, action_res, actor):
         self.type = "action"
         self.rolltype = rolltype
         self.action_res = action_res
         self.actor = actor
 
-class MatchResult():
 
+class MatchResult:
     def __init__(self, date, home_team_name, home_score, away_team_name, away_score):
         self.type = "match_result"
         self.date = date
@@ -40,8 +38,7 @@ class MatchResult():
         self.away_score = away_score
 
 
-class Parser():
-
+class Parser:
     def __init__(self):
         self.current_team = None
         self.current_turn = 0
@@ -62,8 +59,9 @@ class Parser():
         teams = []
         teams_elem = teams_state.findall(".//TeamState/Data")
         for index, team in enumerate(teams_elem):
-            teams.append((team.findtext(".//Name"),
-                          team.findtext(".//IdRace"), coaches[index]))
+            teams.append(
+                (team.findtext(".//Name"), team.findtext(".//IdRace"), coaches[index])
+            )
         log.debug("TEAMS:")
         log.debug(teams)
         return teams
@@ -112,7 +110,11 @@ class Parser():
             log.debug(player_id)
             if player_id == -1:  # Wizard
                 return Actor(self.current_team, self.current_turn)
-            elem_id = event.getparent().xpath("./BoardState/ListTeams/TeamState/ListPitchPlayers/PlayerState/Id[text()='{}']".format(player_id))[0]
+            elem_id = event.getparent().xpath(
+                "./BoardState/ListTeams/TeamState/ListPitchPlayers/PlayerState/Id[text()='{}']".format(
+                    player_id
+                )
+            )[0]
             elem_team_state = elem_id.getparent().getparent().getparent()
             elem_player = elem_id.getparent()
             player_name = elem_player.findtext("./Data/Name")
@@ -149,7 +151,10 @@ class Parser():
                 return res
 
         if rolltype == CASUALTY:
-            if action_res.findtext("./RollStatus") == "1" and action_res.findtext("./IsOrderCompleted") == "1":
+            if (
+                action_res.findtext("./RollStatus") == "1"
+                and action_res.findtext("./IsOrderCompleted") == "1"
+            ):
                 log.debug("Ignoring, casualty choice")
                 return
 
